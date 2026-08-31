@@ -1,54 +1,44 @@
-# Robotics Education Platform — GitHub Copilot Instructions
+# EducationPortal — Copilot Project Context & Engineering Rules
 
-## Project Overview
+## 1. Project Purpose
 
-We are building a modern Robotics & Technology Education platform for schools.
+This repository is a Robotics, Coding, AI, IoT and STEM education platform designed for schools.
 
-The company partners with schools to provide structured, project-based education in:
+The platform serves:
 
-* Robotics
-* Coding
-* Electronics
-* AI & IoT
-* STEM
-* Engineering
-* Technology projects
+* School principals and management
+* Teachers
+* Parents
+* Students
+* Internal administrators/content managers
 
-The primary audience is:
+The product has two major areas:
 
-1. School Principals / Management
-2. Teachers / Coordinators
-3. Parents
-4. Students
+1. Public education website
+2. Secure Admin/CMS portal
 
-The website must feel professional enough for school decision-makers while still being exciting and engaging for students and parents.
+The public website must remain responsive, modern, educational and premium.
 
-The design inspiration is modern educational/technology websites such as MotuBrain and AmazeHeads.
+The visual direction is currently:
 
-The visual direction is:
-
-* Grey
 * Black
 * White
+* Grey
+* Zinc shades
 * Minimal
-* Premium
 * Modern
-* Clean
-* Technology-focused
-* Strong typography
-* Large whitespace
-* Subtle animations
-* Responsive on mobile, tablet and desktop
+* Technology/space inspired
 
-Brand colors, logo, images and other visual settings should remain configurable so they can be changed later.
+Brand name, logo, colors and content must remain configurable.
 
 ---
 
-# Technology Stack
+# 2. Technology
 
 ## Frontend
 
-* React JS
+* React
+* Vite
 * React Router
 * Axios
 * Tailwind CSS
@@ -56,24 +46,30 @@ Brand colors, logo, images and other visual settings should remain configurable 
 
 ## Backend
 
-* Java
+* Java 17
 * Spring Boot
+* Spring Web
+* Spring Security
 * Spring Data JPA
 * PostgreSQL
 * Flyway
-* REST APIs
+* JWT
+* Bean Validation
+* Swagger/OpenAPI
 
-## Architecture
+---
 
-The frontend is a Single Page Application.
+# 3. Architecture
 
-The frontend must NOT hardcode business/content data when that data is available from the backend.
+Use a modular monolith.
 
-Preferred flow:
+Do NOT introduce microservices.
 
-React Component
+General flow:
+
+React
 ↓
-API module
+API modules
 ↓
 Axios
 ↓
@@ -85,592 +81,900 @@ Repository
 ↓
 PostgreSQL
 
----
+For protected APIs:
 
-# IMPORTANT EXISTING FRONTEND STRUCTURE
-
-Do not create duplicate components if an existing component already serves the purpose.
-
-Current structure includes:
-
-src/
-├── api/
-├── components/
-│   ├── common/
-│   └── home/
-├── data/
-├── pages/
-├── layout/
-└── App.jsx
-
-Existing components include:
-
-* components/home/Programs.jsx
-* components/common/SectionHeader.jsx
-* common navigation/footer components
-
-Reuse existing components whenever possible.
-
-Do NOT create:
-
-* ProgramsSection.jsx
-* ProgramsPage.jsx
-
-if Programs.jsx already exists and can be reused.
+React
+↓
+JWT
+↓
+Spring Security
+↓
+Controller
+↓
+Service
+↓
+Repository
+↓
+PostgreSQL
 
 ---
 
-# API Integration Rules
+# 4. SOURCE-OF-TRUTH RULE
 
-All backend calls should be placed inside:
+The CURRENT repository is the source of truth.
 
-src/api/
+A separate integrated Stage 2 reference folder may be available locally.
 
 Example:
 
-src/api/apiClient.js
+reference/
+EducationPortal-Stage2-Integrated-v2/
 
-The Axios client should use:
+The reference implementation is ONLY a guide for:
 
-http://localhost:8080/api
+* Authentication logic
+* JWT handling
+* Admin API patterns
+* Admin dashboard
+* CRUD structure
+* Page-content management
+* Lead management
+* User management
+* Authorization
+* DTO patterns
+* Security configuration
+* Migration patterns
 
-Example:
+DO NOT blindly overwrite the current repository with the reference implementation.
 
-src/api/programApi.js
+Before changing anything:
 
-```javascript
-import apiClient from "./apiClient";
-
-export const getPrograms = async () => {
-  const response = await apiClient.get("/programs");
-  return response.data.data;
-};
-```
-
-Components should call API modules rather than directly calling Axios.
-
-Do NOT put URLs directly inside components.
-
----
-
-# Existing Programs Implementation
-
-Programs are already successfully connected to the backend.
-
-Backend endpoint:
-
-GET /api/programs
-
-Database currently contains:
-
-* Robotics
-* Coding
-* Electronics
-* AI & IoT
-
-The existing:
-
-components/home/Programs.jsx
-
-fetches these records from the backend.
-
-Use this implementation as the pattern for all other dynamic sections.
-
-Do not break the existing Programs implementation.
+1. Inspect the current repository.
+2. Understand the current implementation.
+3. Identify already-working functionality.
+4. Identify differences between current code and reference implementation.
+5. Reuse the current implementation wherever it already works.
+6. Port only the required missing logic.
+7. Preserve existing APIs, database schema and routes unless a change is genuinely required.
 
 ---
 
-# Dynamic Website Requirements
+# 5. GOLDEN RULE
 
-The following website sections/pages should eventually become dynamic.
+NEVER BREAK EXISTING FUNCTIONALITY.
 
-## Programs
+Existing public functionality has already been developed and tested.
 
-Backend:
+Working functionality includes:
 
-GET /api/programs
+* Home page
+* Programs
+* Projects
+* Curriculum
+* Dynamic content
+* Public REST APIs
+* PostgreSQL
+* Flyway
+* Swagger
+* React routing
+* Navbar/Footer
+* Existing project/media functionality
 
-Frontend:
+Before changing any existing component:
 
-components/home/Programs.jsx
-
-Display:
-
-* title
-* description
-* age group
-* tag
-* display order
-* icon/image when supported
-
-Future detail route:
-
-/programs/:slug
-
----
-
-## Projects
-
-Projects should be loaded from the backend.
-
-Expected frontend API module:
-
-src/api/projectApi.js
-
-Expected API:
-
-GET /api/projects
-
-Future:
-
-GET /api/projects/:slug
-
-Projects should support:
-
-* title
-* slug
-* description
-* category
-* age group
-* difficulty
-* image
-* featured flag
-* display order
-
-The UI should contain project cards and eventually project detail pages.
+* Search for every usage.
+* Understand the dependencies.
+* Make the smallest safe change.
+* Verify that existing routes still work.
 
 ---
 
-## Curriculum
+# 6. DO NOT DUPLICATE COMPONENTS
 
-Curriculum must be dynamic.
+Before creating a component:
 
-The curriculum should communicate a structured learning pathway based on age/grade.
+SEARCH THE REPOSITORY.
 
-Potential structure:
+If something similar already exists, extend or reuse it.
 
-* Grade 1-3
-* Grade 4-5
-* Grade 6-8
-* Grade 9-10
-* Grade 11-12
+Do NOT create duplicates such as:
 
-The backend should be the source of truth.
+Programs.jsx
+ProgramsSection.jsx
+ProgramsPage.jsx
 
-Expected frontend:
+when an existing Programs component already serves the purpose.
 
-src/api/curriculumApi.js
+Prefer:
 
-The UI should clearly communicate:
-
-* grade
-* learning level
-* subjects/topics
-* skills developed
-* projects
-* duration
-* learning outcomes
-
-Do not hardcode curriculum data in React.
+Existing component
+↓
+Enhance it
+↓
+Reuse it
 
 ---
 
-# Schools Page
+# 7. CURRENT PUBLIC WEBSITE
 
-The Schools page is primarily targeted at:
-
-* Principals
-* School management
-* Academic coordinators
-
-It should explain the partnership model.
-
-Possible sections:
-
-1. Why schools partner with us
-2. What we provide
-3. Curriculum
-4. Robotics kits/equipment
-5. Teacher enablement
-6. Student projects
-7. Implementation model
-8. School benefits
-9. Request a school demo
-
-Keep the content configurable through backend APIs where appropriate.
-
----
-
-# Teachers Page
-
-Target audience:
-
-Teachers and STEM coordinators.
-
-Explain:
-
-* Teacher training
-* Lesson plans
-* Robotics kits
-* Project guidance
-* Curriculum support
-* Student assessment
-* Classroom implementation
-
-Use dynamic content where appropriate.
-
----
-
-# Parents Page
-
-Target audience:
-
-Parents.
-
-Focus on:
-
-* What students learn
-* Why robotics matters
-* Coding skills
-* Problem solving
-* Creativity
-* Engineering mindset
-* Future technology skills
-* Project-based learning
-
-Avoid overly technical language.
-
----
-
-# About Page
-
-Explain:
-
-* Company mission
-* Vision
-* Education philosophy
-* Project-based learning
-* School collaboration
-* Robotics/STEM focus
-
-Content should eventually be manageable from backend configuration.
-
----
-
-# Contact Page
-
-Contact should support:
-
-* Name
-* Email
-* Phone
-* School/Organization
-* Message
-
-Form submission should call:
-
-POST /api/contact
-
-Do not simply log form data to console.
-
-Display:
-
-* loading state
-* success state
-* validation errors
-* API errors
-
----
-
-# Demo Request
-
-There should be a strong CTA throughout the website:
-
-"Book a School Demo"
-
-The form should capture:
-
-* Name
-* Email
-* Phone
-* School name
-* City
-* Role
-* Message
-
-Submit to:
-
-POST /api/demo-requests
-
----
-
-# Navigation
-
-The Navbar is GLOBAL.
-
-It must NOT be inside Home.jsx.
-
-Use a shared layout:
-
-src/layout/MainLayout.jsx
-
-Structure:
-
-<MainLayout>
-    <Navbar />
-    <Outlet />
-    <Footer />
-</MainLayout>
-
-React Router should use nested routes.
-
-Example:
-
-<Route element={<MainLayout />}>
-<Route path="/" element={<Home />} />
-<Route path="/programs" element={<Programs />} />
-... </Route>
-
-This ensures Navbar and Footer remain visible while navigating between pages.
-
-Do not duplicate Navbar/Footer inside individual pages.
-
----
-
-# Routes
-
-The intended public routes are:
+Public routes include:
 
 /
 /programs
 /programs/:slug
-/curriculum
 /projects
 /projects/:slug
+/curriculum
 /schools
 /teachers
 /parents
 /about
 /contact
 
-Future admin routes:
+The Navbar and Footer are GLOBAL.
 
-/admin/login
-/admin
-/admin/programs
-/admin/projects
-/admin/curriculum
-/admin/schools
-/admin/leads
-/admin/testimonials
-/admin/blogs
-/admin/settings
+They must be rendered through a shared layout.
 
----
+Preferred architecture:
 
-# UI/UX Requirements
+MainLayout
+├── Navbar
+├── Outlet
+└── Footer
 
-Every page must be:
-
-* Responsive
-* Mobile-first
-* Accessible
-* Fast
-* Visually consistent
-
-Use the existing design system.
-
-Primary visual language:
-
-* black
-* white
-* grey
-* zinc shades
-
-Avoid introducing random colors.
-
-Use Framer Motion for subtle animations.
-
-Animations should be:
-
-* smooth
-* professional
-* subtle
-
-Avoid excessive animations.
+Do NOT put Navbar/Footer directly inside individual pages.
 
 ---
 
-# Loading and Error States
+# 8. CURRENT PUBLIC API PRINCIPLE
 
-Every API-driven component must handle:
+Public content is backend-driven.
 
-1. Loading
-2. Success
-3. Empty state
-4. Error
+The frontend should NOT maintain a second hardcoded source of truth for content that already exists in PostgreSQL.
 
 Example:
 
-```jsx
-if (loading) {
-    return <LoadingState />;
-}
+Correct:
 
-if (error) {
-    return <ErrorState />;
-}
+React
+↓
+GET /api/programs
+↓
+PostgreSQL
 
-if (!items.length) {
-    return <EmptyState />;
-}
-```
+Incorrect:
 
-Do not leave users with a blank screen.
+React
+↓
+hardcoded programs array
 
----
+The same principle applies to:
 
-# Data Handling
-
-Never assume an API field exists.
-
-Before using a new field:
-
-1. Check the backend response.
-2. Check the Java DTO/record.
-3. Check the database schema.
-4. Then implement the frontend.
-
-If a field does not exist, do not invent it silently.
-
-Ask to extend the backend model or use an existing field.
+* Programs
+* Projects
+* Curriculum
+* Page content
+* Testimonials
+* Blog content
+* School information where applicable
 
 ---
 
-# Backend Changes
+# 9. API LAYER
 
-When a required backend API does not exist:
+All frontend API calls belong under:
 
-Do not fake the API on the frontend.
+src/api/
 
-Instead:
+Examples:
 
-1. Identify the missing backend endpoint.
-2. Add the appropriate Java record DTO.
-3. Add/update entity.
-4. Add repository method if required.
-5. Add service.
-6. Add controller endpoint.
-7. Add Flyway migration if schema changes.
-8. Test through Swagger.
-9. Then connect React.
+src/api/apiClient.js
+src/api/programApi.js
+src/api/projectApi.js
+src/api/curriculumApi.js
+src/api/pageApi.js
+src/api/contactApi.js
+src/api/demoRequestApi.js
+src/api/adminApi.js
+src/api/authApi.js
+
+Components must NOT contain raw Axios URLs.
+
+Prefer:
+
+component
+↓
+api module
+↓
+apiClient
+↓
+backend
 
 ---
 
-# Database
+# 10. DTO RULE
 
-PostgreSQL is running through Docker.
+Use Java records for:
+
+* Request DTOs
+* Response DTOs
+* API wrapper objects
+
+Example:
+
+public record ProgramResponse(
+Long id,
+String title,
+String slug,
+String description
+) {}
+
+Do NOT use records for JPA entities.
+
+JPA entities should remain normal classes with:
+
+* fields
+* getters/setters
+* JPA annotations
+* constructors required by JPA
+
+---
+
+# 11. NO LOMBOK
+
+Do NOT introduce Lombok.
+
+Use standard Java.
+
+This project intentionally avoids Lombok to eliminate annotation-processing issues.
+
+---
+
+# 12. DATABASE RULES
+
+PostgreSQL is the persistent database.
 
 Database:
 
 robotics_education
 
-Database timezone:
+Timezone:
 
 UTC
 
-Do not change the PostgreSQL timezone to Asia/Calcutta.
+Do NOT configure PostgreSQL as:
 
-Flyway manages database migrations.
+Asia/Calcutta
 
-Never modify an already-applied Flyway migration.
+Do NOT reintroduce the previous timezone problem.
 
-Create a new migration instead.
-
----
-
-# Coding Style
-
-Prefer:
-
-* functional React components
-* hooks
-* async/await
-* reusable API modules
-* reusable UI components
-* small components
-* clear naming
-
-Avoid:
-
-* duplicated API calls
-* duplicated UI
-* hardcoded URLs
-* hardcoded website content
-* unnecessary global state
-* unnecessary dependencies
+Application/JPA should use UTC.
 
 ---
 
-# Before Making Changes
+# 13. FLYWAY RULES
 
-Always inspect the existing code first.
+Flyway manages database evolution.
 
-Do not create a new component when an existing component can be enhanced.
+NEVER modify an already-applied migration.
 
-Do not replace working code unnecessarily.
+If the current project contains:
 
-Maintain the current visual design.
+V1
+V2
+V3
+V4
+V5
 
-If changing a shared component, check all usages before modifying it.
+do NOT edit those migrations.
+
+Create:
+
+V6
+V7
+V8
+
+as required.
+
+Migration naming:
+
+V6__admin_security.sql
+
+V7__page_content.sql
+
+etc.
+
+Before creating a migration:
+
+* inspect existing schema
+* inspect existing migrations
+* verify whether a table/column already exists
+* avoid duplicate table creation
 
 ---
 
-# Development Strategy
+# 14. ADMIN PORTAL OBJECTIVE
 
-Implement incrementally.
+The Admin portal should allow authorized users to manage the public website.
 
-Recommended order:
+Main navigation:
 
-1. Fix shared layout/navigation
-2. Programs
-3. Projects
-4. Curriculum
-5. Schools
-6. Teachers
-7. Parents
-8. About
-9. Contact
-10. Demo Requests
-11. Testimonials
-12. Blog
-13. Admin authentication
-14. Admin dashboard
-15. Admin CRUD
-16. Production hardening
-
-Always verify each feature before moving to the next.
+Dashboard
+Programs
+Projects
+Curriculum
+Schools
+Testimonials
+Blogs
+Page Content
+Media
+Leads
+Demo Requests
+Users
+Settings
 
 ---
 
-# Current Status
+# 15. ADMIN ROLES
 
-Completed:
+Use role-based authorization.
 
-* React SPA foundation
-* Spring Boot backend
-* PostgreSQL Docker setup
-* Flyway
-* Swagger
-* Programs database
-* GET /api/programs
-* React Programs component connected to backend
+Roles:
 
-Currently working on:
+ADMIN
+EDITOR
 
-* Shared Navbar/Footer layout
-* Making remaining website pages dynamic
+ADMIN:
 
-Do not break the existing Programs integration.
+* Full access
+* Manage users
+* Manage content
+* Manage leads
+* Manage settings
 
-The goal is a production-quality Robotics Education platform rather than a static marketing website.
+EDITOR:
+
+* Manage website content
+* Manage programs
+* Manage projects
+* Manage curriculum
+* Manage page content
+* View/manage leads as permitted
+
+User-management APIs must be restricted to ADMIN.
+
+NEVER rely only on hiding frontend routes.
+
+Authorization must be enforced by Spring Security on the backend.
+
+---
+
+# 16. AUTHENTICATION
+
+Use:
+
+JWT
+BCrypt
+Stateless Spring Security
+
+Login endpoint:
+
+POST /api/auth/login
+
+Request:
+
+{
+"email": "...",
+"password": "..."
+}
+
+Response should contain:
+
+* token
+* email
+* role
+
+Frontend must store/use authentication safely.
+
+Do not expose password hashes.
+
+Do not return sensitive user information.
+
+---
+
+# 17. ADMIN API PATTERN
+
+Administrative APIs should use:
+
+/api/admin/**
+
+Examples:
+
+GET    /api/admin/dashboard
+
+GET    /api/admin/programs
+POST   /api/admin/programs
+PUT    /api/admin/programs/{id}
+DELETE /api/admin/programs/{id}
+
+GET    /api/admin/projects
+POST   /api/admin/projects
+PUT    /api/admin/projects/{id}
+DELETE /api/admin/projects/{id}
+
+GET    /api/admin/curriculum
+POST   /api/admin/curriculum
+PUT    /api/admin/curriculum/{id}
+DELETE /api/admin/curriculum/{id}
+
+---
+
+# 18. PUBLIC vs ADMIN DATA
+
+Public API:
+
+Only published content.
+
+Example:
+
+GET /api/programs
+
+should normally return:
+
+published = true
+
+Admin API:
+
+Can see published and unpublished content.
+
+Example:
+
+GET /api/admin/programs
+
+returns all records.
+
+---
+
+# 19. CRUD RULES
+
+Every CRUD implementation should have:
+
+* validation
+* authorization
+* service layer
+* repository
+* DTOs
+* consistent API responses
+* meaningful errors
+
+Do not expose entities directly from controllers.
+
+---
+
+# 20. DELETE RULE
+
+Before deleting an entity:
+
+Check relationships.
+
+Many-to-many relationships must be safely detached before deletion where required.
+
+Do not leave orphaned join-table rows.
+
+Prefer safe deletion behavior.
+
+Where content history is important, consider publish/unpublish or soft-delete instead of immediate deletion.
+
+---
+
+# 21. PAGE CONTENT
+
+Some public pages contain primarily informational content.
+
+Use dynamic page content where appropriate.
+
+Example:
+
+GET /api/pages/{pageKey}
+
+Admin:
+
+GET    /api/admin/pages
+POST   /api/admin/pages
+PUT    /api/admin/pages/{id}
+DELETE /api/admin/pages/{id}
+
+Page keys may include:
+
+HOME
+ABOUT
+SCHOOLS
+TEACHERS
+PARENTS
+CONTACT
+
+Do not make the page-content model unnecessarily complicated.
+
+---
+
+# 22. LEADS
+
+Contact submissions and school demo requests are business leads.
+
+They must be stored in PostgreSQL.
+
+Admin should be able to:
+
+* view
+* search
+* inspect details
+* update status
+
+Possible statuses:
+
+NEW
+CONTACTED
+IN_PROGRESS
+QUALIFIED
+CLOSED
+
+Do not lose submissions.
+
+---
+
+# 23. ADMIN DASHBOARD
+
+Dashboard should eventually show:
+
+* Total programs
+* Total projects
+* Total curriculum items
+* New demo requests
+* New contact submissions
+* Published content
+* Recent activity
+
+Keep the dashboard API lightweight.
+
+Avoid expensive database queries on every request.
+
+---
+
+# 24. PAGINATION
+
+For admin lists that may grow:
+
+Use pagination.
+
+Examples:
+
+Programs
+Projects
+Blogs
+Leads
+Demo requests
+Contacts
+Users
+
+Do not load thousands of records into the browser.
+
+---
+
+# 25. SEARCH AND FILTER
+
+Admin lists should eventually support:
+
+* search
+* status filter
+* published filter
+* sorting
+* pagination
+
+Start simple and extend where needed.
+
+---
+
+# 26. MEDIA
+
+Images/videos should not be stored directly as large binary content in normal business tables unless there is a strong reason.
+
+Prefer storing:
+
+* URL
+* object key
+* metadata
+
+and later integrate object storage/CDN.
+
+Do not break the existing media implementation.
+
+---
+
+# 27. ERROR HANDLING
+
+Use centralized exception handling.
+
+Expected errors:
+
+400 validation
+401 unauthenticated
+403 unauthorized
+404 not found
+409 conflict
+500 unexpected server error
+
+Do not expose stack traces or internal SQL errors to frontend users.
+
+---
+
+# 28. FRONTEND API ERROR HANDLING
+
+Every API-driven page/component should handle:
+
+* loading
+* success
+* empty
+* error
+
+Do not show blank screens.
+
+Use reusable:
+
+LoadingState
+ErrorState
+EmptyState
+
+where appropriate.
+
+---
+
+# 29. FRONTEND ADMIN ROUTING
+
+Expected structure:
+
+/admin/login
+
+/admin
+/admin/programs
+/admin/projects
+/admin/curriculum
+/admin/pages
+/admin/media
+/admin/leads
+/admin/demo-requests
+/admin/users
+/admin/settings
+
+Protected routes must verify authentication.
+
+Do not rely only on route hiding.
+
+---
+
+# 30. ADMIN UI DESIGN
+
+Admin UI should be separate from the public marketing design but visually consistent.
+
+Use:
+
+* sidebar
+* top bar
+* cards
+* tables
+* filters
+* forms
+* dialogs
+* toast/notifications
+* responsive layout
+
+Admin should be usable on desktop and tablet.
+
+---
+
+# 31. PUBLIC WEBSITE DESIGN
+
+Preserve current design.
+
+Base palette:
+
+black
+white
+grey
+zinc
+
+Do not randomly introduce bright colors.
+
+Use Framer Motion sparingly.
+
+The public website must remain:
+
+* modern
+* premium
+* educational
+* responsive
+* accessible
+
+---
+
+# 32. CONFIGURATION
+
+Branding should remain configurable.
+
+Example:
+
+siteConfig:
+
+* name
+* shortName
+* tagline
+* logo
+* contact
+* social links
+
+Theme configuration should remain centralized.
+
+Do not scatter brand values throughout JSX.
+
+---
+
+# 33. SECURITY
+
+Never:
+
+* hardcode production secrets
+* commit passwords
+* return password hashes
+* trust frontend role information
+* allow admin APIs without backend authorization
+* expose database credentials
+
+Use environment variables.
+
+JWT secret must come from environment configuration in production.
+
+Development defaults may exist only for local development.
+
+---
+
+# 34. TESTING
+
+Before declaring a feature complete:
+
+Backend:
+
+* compile
+* start
+* migration runs
+* Swagger works
+* endpoint works
+* validation works
+* authorization works
+
+Frontend:
+
+* compile
+* route works
+* API call works
+* loading state works
+* error state works
+* refresh works
+* direct URL navigation works
+
+---
+
+# 35. COPILOT WORKFLOW
+
+When implementing a feature:
+
+STEP 1
+Inspect existing implementation.
+
+STEP 2
+Inspect reference implementation.
+
+STEP 3
+Create a mapping:
+
+Current:
+X
+
+Reference:
+Y
+
+Required:
+X + missing logic from Y
+
+STEP 4
+Make the smallest safe change.
+
+STEP 5
+Run/build/test.
+
+STEP 6
+Check affected routes.
+
+STEP 7
+Proceed to next feature.
+
+---
+
+# 36. DO NOT DO THIS
+
+Do NOT:
+
+* replace the whole project
+* regenerate existing working files unnecessarily
+* overwrite existing migrations
+* duplicate components
+* duplicate APIs
+* duplicate entities
+* blindly copy reference files
+* change database names
+* change ports without reason
+* change existing public API contracts unnecessarily
+* remove existing functionality
+* introduce Lombok
+* introduce microservices
+* hardcode content that should be dynamic
+
+---
+
+# 37. IMPORTANT DEVELOPMENT PRINCIPLE
+
+When the reference implementation and current code differ:
+
+CURRENT PROJECT WINS.
+
+Use the reference only to fill missing functionality.
+
+Preserve existing:
+
+* API paths
+* database structure
+* frontend routes
+* component names
+* working UI
+* media logic
+* existing relationships
+
+unless there is a documented reason to change them.
+
+---
+
+# 38. FINAL EXPECTATION
+
+The end result should be:
+
+PUBLIC WEBSITE
+↓
+Dynamic React SPA
+↓
+Spring Boot REST APIs
+↓
+PostgreSQL
+
+AND
+
+ADMIN PORTAL
+↓
+JWT Login
+↓
+Role-based access
+↓
+Dashboard
+↓
+CMS / CRUD / Leads / Media
+↓
+Spring Boot
+↓
+PostgreSQL
+
+The public website and admin portal must share the same backend data.
+
+Changing a program from the Admin portal must change what the public website displays.
+
+Changing curriculum from Admin must change the public curriculum.
+
+Publishing/unpublishing content must immediately affect public API results.
+
+All changes must preserve existing working flows.

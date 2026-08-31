@@ -29,6 +29,14 @@ app:
 server:
   port: ${PORT:8080}
 
+app:
+  jwt:
+    secret: ${JWT_SECRET:czNza2x0Y2hhbmdlbWV0eS1oYXNoLXJldmVyc2Uta2V5MTIzNDU2Nzg5}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  admin:
+    email: ${APP_ADMIN_EMAIL:admin@local.test}
+    password: ${APP_ADMIN_PASSWORD:change-me-local-only}
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
