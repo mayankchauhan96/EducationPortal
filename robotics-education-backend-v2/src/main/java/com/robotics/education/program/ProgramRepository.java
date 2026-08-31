@@ -4,4 +4,6 @@ import java.util.*;
 public interface ProgramRepository extends JpaRepository<Program,Long>{
  List<Program> findAllByPublishedTrueOrderByDisplayOrderAsc();
  Optional<Program> findBySlugAndPublishedTrue(String slug);
+ boolean existsBySlug(String slug);
+ Optional<Program> findBySlug(String slug);
 }

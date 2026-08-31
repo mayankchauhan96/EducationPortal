@@ -2,10 +2,13 @@ services:
   postgres:
     image: postgres:16
     container_name: robotics-postgres
+    command: ["postgres", "-c", "timezone=UTC"]
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-robotics_education}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+      TZ: UTC
+      PGTZ: UTC
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
