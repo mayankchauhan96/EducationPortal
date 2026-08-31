@@ -3,7 +3,7 @@ spring:
     name: robotics-education-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/robotics_education?options=-c%20TimeZone%3DUTC
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/robotics_education?options=-c%20TimeZone%3DUTC}
     username: ${DATABASE_USERNAME:postgres}
     password: ${DATABASE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -22,22 +22,4 @@ spring:
     locations: classpath:db/migration
 
 server:
-  port: ${SERVER_PORT:8080}
-
-app:
-  jwt:
-    secret: ${JWT_SECRET:czNza2x0Y2hhbmdlbWV0eS1oYXNoLXJldmVyc2Uta2V5MTIzNDU2Nzg5}
-    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
-  admin:
-    email: ${APP_ADMIN_EMAIL:admin@local.test}
-    password: ${APP_ADMIN_PASSWORD:change-me-local-only}
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
+  port: ${PORT:${SERVER_PORT:8080}}
