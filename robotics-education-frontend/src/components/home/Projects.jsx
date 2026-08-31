@@ -4,7 +4,59 @@ import { motion } from "framer-motion";
 import { getProjects } from "../../api/projectApi";
 import SectionHeader from "../common/SectionHeader";
 
-export default function Projects() {
+const isUsableImageUrl = (url) => {
+  if (!url || !url.trim()) return false;
+
+  try {
+    const parsed = new URL(url);
+    return /\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i.test(parsed.pathname);
+  } catch {
+    return false;
+  }
+};
+
+const createProjectImage = (title, difficulty = "Project") => {
+  const label = (title || "Project").replace(/\s+/g, " ").trim();
+  const lower = label.toLowerCase();
+
+  let icon = "⚙️";
+  let theme = "#27272a";
+  if (lower.includes("traffic") || lower.includes("signal")) {
+    icon = "🚦";
+    theme = "#1f2937";
+  } else if (lower.includes("plant") || lower.includes("garden") || lower.includes("watering")) {
+    icon = "🌱";
+    theme = "#14532d";
+  } else if (lower.includes("joystick") || lower.includes("football") || lower.includes("goalkeeper") || lower.includes("robot")) {
+    icon = "🤖";
+    theme = "#3f3f46";
+  } else if (lower.includes("iot") || lower.includes("smart") || lower.includes("system")) {
+    icon = "📡";
+    theme = "#0f172a";
+  }
+
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="900" height="675" viewBox="0 0 900 675">
+      <defs>
+        <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#111827"/>
+          <stop offset="100%" stop-color="${theme}"/>
+        </linearGradient>
+      </defs>
+      <rect width="900" height="675" fill="url(#g)"/>
+      <circle cx="760" cy="120" r="110" fill="rgba(255,255,255,0.08)"/>
+      <circle cx="160" cy="520" r="170" fill="rgba(255,255,255,0.06)"/>
+      <rect x="70" y="70" width="760" height="535" rx="28" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.18)"/>
+      <text x="450" y="330" text-anchor="middle" font-size="180" fill="#f4f4f5" font-family="Apple Color Emoji, Segoe UI Emoji, sans-serif">${icon}</text>
+      <text x="450" y="420" text-anchor="middle" font-size="28" fill="#d4d4d8" font-family="Arial, sans-serif" letter-spacing="3">${(difficulty || "PROJECT").toUpperCase()}</text>
+      <text x="450" y="485" text-anchor="middle" font-size="28" fill="#fafafa" font-family="Arial, sans-serif">${label.slice(0, 26)}</text>
+    </svg>
+  `;
+
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+};
+
+export default function Projects({ limit }) {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -13,7 +65,23 @@ export default function Projects() {
     const loadProjects = async () => {
       try {
         const data = await getProjects();
-        setProjects(data);
+        const normalizedProjects = (Array.isArray(data) ? data : [])
+          .filter((project) => project)
+          .map((project) => ({
+            ...project,
+            imageUrl: isUsableImageUrl(project.imageUrl)
+              ? project.imageUrl
+              : createProjectImage(project.title, project.difficulty),
+          }));
+
+        const shuffled = [...normalizedProjects];
+        for (let i = shuffled.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        const result = typeof limit === "number" ? shuffled.slice(0, limit) : shuffled;
+        setProjects(result);
       } catch (err) {
         console.error("Failed to load projects:", err);
         setError("Unable to load student projects right now.");
@@ -23,7 +91,7 @@ export default function Projects() {
     };
 
     loadProjects();
-  }, []);
+  }, [limit]);
 
   return (
     <section className="section bg-zinc-950 text-white">

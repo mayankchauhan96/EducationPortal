@@ -16,17 +16,17 @@ import ProgramDetailPage from "./pages/ProgramDetailPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import CurriculumDetailPage from "./pages/CurriculumDetailPage";
 import MainLayout from "./components/layout/MainLayout";
-
-function Placeholder({ title }) {
-  return (
-    <main className="min-h-screen flex items-center justify-center bg-zinc-50">
-      <div className="text-center px-6">
-        <p className="text-sm uppercase tracking-[0.2em] text-zinc-500 mb-3">Coming next</p>
-        <h1 className="text-4xl font-bold">{title}</h1>
-      </div>
-    </main>
-  );
-}
+import AdminRoute from "./pages/admin/AdminRoute";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
+import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
+import AdminProgramsPage from "./pages/admin/AdminProgramsPage";
+import AdminProjectsPage from "./pages/admin/AdminProjectsPage";
+import AdminCurriculumPage from "./pages/admin/AdminCurriculumPage";
+import AdminPageContentPage from "./pages/admin/AdminPageContentPage";
+import AdminContactsPage from "./pages/admin/AdminContactsPage";
+import AdminDemoRequestsPage from "./pages/admin/AdminDemoRequestsPage";
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
 
 export default function App() {
   return (
@@ -48,6 +48,20 @@ export default function App() {
         <Route path="/testimonials" element={<TestimonialsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/demo-request" element={<DemoRequestPage />} />
+      </Route>
+
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route element={<AdminRoute />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/programs" element={<AdminProgramsPage />} />
+          <Route path="/admin/projects" element={<AdminProjectsPage />} />
+          <Route path="/admin/curriculum" element={<AdminCurriculumPage />} />
+          <Route path="/admin/page-content" element={<AdminPageContentPage />} />
+          <Route path="/admin/contacts" element={<AdminContactsPage />} />
+          <Route path="/admin/demo-requests" element={<AdminDemoRequestsPage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
+        </Route>
       </Route>
     </Routes>
   );

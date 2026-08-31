@@ -1,6 +1,17 @@
 import { skills } from "../../data/homeData";
 import SectionHeader from "../common/SectionHeader";
 
+const skillIcons = {
+  "Problem Solving": "🧠",
+  "Logical Thinking": "📐",
+  Creativity: "🎨",
+  Teamwork: "🤝",
+  "Engineering Thinking": "⚙️",
+  "Coding Skills": "💻",
+  Innovation: "🚀",
+  Confidence: "✨",
+};
+
 export default function Skills() {
   return (
     <section className="section bg-zinc-100">
@@ -14,7 +25,8 @@ export default function Skills() {
           {skills.map((skill, i) => (
             <div key={skill} className="bg-white p-6 sm:p-8">
               <span className="text-xs text-zinc-400">0{i + 1}</span>
-              <h3 className="mt-10 font-semibold">{skill}</h3>
+              <div className="mt-6 text-3xl">{skillIcons[skill] || "⚡"}</div>
+              <h3 className="mt-4 font-semibold">{skill}</h3>
             </div>
           ))}
         </div>

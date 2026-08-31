@@ -39,8 +39,12 @@ POST /api/contact
 POST /api/demo-requests
 
 Environment variables:
-DATABASE_URL
-DATABASE_USERNAME
-DATABASE_PASSWORD
-FRONTEND_URL
-SERVER_PORT
+- DATABASE_URL
+- DATABASE_USERNAME
+- DATABASE_PASSWORD
+- FRONTEND_URL
+- PORT
+- JWT_SECRET
+- JWT_EXPIRATION_MS
+
+Copy [.env.example](.env.example) to `.env` locally and set your own values. Do not commit real secrets.

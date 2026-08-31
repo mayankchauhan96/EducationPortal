@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 import { getPrograms } from "../../api/programApi";
 import SectionHeader from "../common/SectionHeader";
 
+const programIcons = {
+  Robotics: "🤖",
+  Coding: "💻",
+  Electronics: "⚡",
+  "AI & IoT": "🌐",
+};
+
 export default function Programs() {
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,8 +52,7 @@ export default function Programs() {
                 className="group rounded-3xl border border-zinc-200 p-7 transition-shadow hover:shadow-soft"
               >
                 <div className="flex items-center justify-between">
-                  {/* API doesn't currently have icon, so keep a generic icon */}
-                  <span className="text-3xl">🤖</span>
+                  <span className="text-3xl">{programIcons[program.title] || "🧩"}</span>
 
                   <span className="text-xs rounded-full bg-zinc-100 px-3 py-1 text-zinc-500">
                     {program.tag}
