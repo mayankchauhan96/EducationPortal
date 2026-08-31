@@ -1,0 +1,258 @@
+[1mdiff --git a/.github/copilot-instructions.md b/.github/copilot-instructions.md[m
+[1mindex 27c14e5..dd02ab9 100644[m
+[1m--- a/.github/copilot-instructions.md[m
+[1m+++ b/.github/copilot-instructions.md[m
+[36m@@ -1,54 +1,44 @@[m
+[31m-# Robotics Education Platform — GitHub Copilot Instructions[m
+[32m+[m[32m# EducationPortal — Copilot Project Context & Engineering Rules[m
+ [m
+[31m-## Project Overview[m
+[32m+[m[32m## 1. Project Purpose[m
+ [m
+[31m-We are building a modern Robotics & Technology Education platform for schools.[m
+[32m+[m[32mThis repository is a Robotics, Coding, AI, IoT and STEM education platform designed for schools.[m
+ [m
+[31m-The company partners with schools to provide structured, project-based education in:[m
+[32m+[m[32mThe platform serves:[m
+ [m
+[31m-* Robotics[m
+[31m-* Coding[m
+[31m-* Electronics[m
+[31m-* AI & IoT[m
+[31m-* STEM[m
+[31m-* Engineering[m
+[31m-* Technology projects[m
+[32m+[m[32m* School principals and management[m
+[32m+[m[32m* Teachers[m
+[32m+[m[32m* Parents[m
+[32m+[m[32m* Students[m
+[32m+[m[32m* Internal administrators/content managers[m
+ [m
+[31m-The primary audience is:[m
+[32m+[m[32mThe product has two major areas:[m
+ [m
+[31m-1. School Principals / Management[m
+[31m-2. Teachers / Coordinators[m
+[31m-3. Parents[m
+[31m-4. Students[m
+[32m+[m[32m1. Public education website[m
+[32m+[m[32m2. Secure Admin/CMS portal[m
+ [m
+[31m-The website must feel professional enough for school decision-makers while still being exciting and engaging for students and parents.[m
+[32m+[m[32mThe public website must remain responsive, modern, educational and premium.[m
+ [m
+[31m-The design inspiration is modern educational/technology websites such as MotuBrain and AmazeHeads.[m
+[32m+[m[32mThe visual direction is currently:[m
+ [m
+[31m-The visual direction is:[m
+[31m-[m
+[31m-* Grey[m
+ * Black[m
+ * White[m
+[32m+[m[32m* Grey[m
+[32m+[m[32m* Zinc shades[m
+ * Minimal[m
+[31m-* Premium[m
+ * Modern[m
+[31m-* Clean[m
+[31m-* Technology-focused[m
+[31m-* Strong typography[m
+[31m-* Large whitespace[m
+[31m-* Subtle animations[m
+[31m-* Responsive on mobile, tablet and desktop[m
+[32m+[m[32m* Technology/space inspired[m
+ [m
+[31m-Brand colors, logo, images and other visual settings should remain configurable so they can be changed later.[m
+[32m+[m[32mBrand name, logo, colors and content must remain configurable.[m
+ [m
+ ---[m
+ [m
+[31m-# Technology Stack[m
+[32m+[m[32m# 2. Technology[m
+ [m
+ ## Frontend[m
+ [m
+[31m-* React JS[m
+[32m+[m[32m* React[m
+[32m+[m[32m* Vite[m
+ * React Router[m
+ * Axios[m
+ * Tailwind CSS[m
+[36m@@ -56,24 +46,30 @@[m [mBrand colors, logo, images and other visual settings should remain configurable[m
+ [m
+ ## Backend[m
+ [m
+[31m-* Java[m
+[32m+[m[32m* Java 17[m
+ * Spring Boot[m
+[32m+[m[32m* Spring Web[m
+[32m+[m[32m* Spring Security[m
+ * Spring Data JPA[m
+ * PostgreSQL[m
+ * Flyway[m
+[31m-* REST APIs[m
+[32m+[m[32m* JWT[m
+[32m+[m[32m* Bean Validation[m
+[32m+[m[32m* Swagger/OpenAPI[m
+ [m
+[31m-## Architecture[m
+[32m+[m[32m---[m
+ [m
+[31m-The frontend is a Single Page Application.[m
+[32m+[m[32m# 3. Architecture[m
+ [m
+[31m-The frontend must NOT hardcode business/content data when that data is available from the backend.[m
+[32m+[m[32mUse a modular monolith.[m
+ [m
+[31m-Preferred flow:[m
+[32m+[m[32mDo NOT introduce microservices.[m
+ [m
+[31m-React Component[m
+[32m+[m[32mGeneral flow:[m
+[32m+[m
+[32m+[m[32mReact[m
+ ↓[m
+[31m-API module[m
+[32m+[m[32mAPI modules[m
+ ↓[m
+ Axios[m
+ ↓[m
+[36m@@ -85,592 +81,900 @@[m [mRepository[m
+ ↓[m
+ PostgreSQL[m
+ [m
+[32m+[m[32mFor protected APIs:[m
+[32m+[m
+[32m+[m[32mReact[m
+[32m+[m[32m↓[m
+[32m+[m[32mJWT[m
+[32m+[m[32m↓[m
+[32m+[m[32mSpring Security[m
+[32m+[m[32m↓[m
+[32m+[m[32mController[m
+[32m+[m[32m↓[m
+[32m+[m[32mService[m
+[32m+[m[32m↓[m
+[32m+[m[32mRepository[m
+[32m+[m[32m↓[m
+[32m+[m[32mPostgreSQL[m
+[32m+[m
+ ---[m
+ [m
+[31m-# IMPORTANT EXISTING FRONTEND STRUCTURE[m
+[32m+[m[32m# 4. SOURCE-OF-TRUTH RULE[m
+ [m
+[31m-Do not create duplicate components if an existing component already serves the purpose.[m
+[32m+[m[32mThe CURRENT repository is the source of truth.[m
+ [m
+[31m-Current structure includes:[m
+[32m+[m[32mA separate integrated Stage 2 reference folder may be available locally.[m
+ [m
+[31m-src/[m
+[31m-├── api/[m
+[31m-├── components/[m
+[31m-│   ├── common/[m
+[31m-│   └── home/[m
+[31m-├── data/[m
+[31m-├── pages/[m
+[31m-├── layout/[m
+[31m-└── App.jsx[m
+[32m+[m[32mExample:[m
+ [m
+[31m-Existing components include:[m
+[32m+[m[32mreference/[m
+[32m+[m[32mEducationPortal-Stage2-Integrated-v2/[m
+ [m
+[31m-* components/home/Programs.jsx[m
+[31m-* components/common/SectionHeader.jsx[m
+[31m-* common navigation/footer components[m
+[32m+[m[32mThe reference implementation is ONLY a guide for:[m
+ [m
+[31m-Reuse existing components whenever possible.[m
+[32m+[m[32m* Authentication logic[m
+[32m+[m[32m* JWT handling[m
+[32m+[m[32m* Admin API patterns[m
+[32m+[m[32m* Admin dashboard[m
+[32m+[m[32m* CRUD structure[m
+[32m+[m[32m* Page-content management[m
+[32m+[m[32m* Lead management[m
+[32m+[m[32m* User management[m
+[32m+[m[32m* Authorization[m
+[32m+[m[32m* DTO patterns[m
+[32m+[m[32m* Security configuration[m
+[32m+[m[32m* Migration patterns[m
+ [m
+[31m-Do NOT create:[m
+[32m+[m[32mDO NOT blindly overwrite the current repository with the reference implementation.[m
+ [m
+[31m-* ProgramsSection.jsx[m
+[31m-* ProgramsPage.jsx[m
+[32m+[m[32mBefore changing anything:[m
+ [m
+[31m-if Programs.jsx already exists and can be reused.[m
+[32m+[m[32m1. Inspect the current repository.[m
+[32m+[m[32m2. Understand the current implementation.[m
+[32m+[m[32m3. Identify already-working functionality.[m
+[32m+[m[32m4. Identify differences between current code and reference implementation.[m
+[32m+[m[32m5. Reuse the current implementation wherever it already works.[m
+[32m+[m[32m6. Port only the required missing logic.[m
+[32m+[m[32m7. Preserve existing APIs, database schema and routes unless a change is genuinely required.[m
+ [m
+ ---[m
+ [m
+[31m-# API Integration Rules[m
+[32m+[m[32m# 5. GOLDEN RULE[m
+ [m
+[31m-All backend calls should be placed inside:[m
+[32m+[m[32mNEVER BREAK EXISTING FUNCTIONALITY.[m
+ [m
+[31m-src/api/[m
+[32m+[m[32mExisting public functionality has already been developed and tested.[m
+ [m
+[31m-Example:[m
+[32m+[m[32mWorking functionality includes:[m
+ [m
+[31m-src/api/apiClient.js[m
+[32m+[m[32m* Home page[m
+[32m+[m[32m* Programs[m
+[32m+[m[32m* Projects[m
+[32m+[m[32m* Curriculum[m
+[32m+[m[32m* Dynamic content[m
+[32m+[m[32m* Public REST APIs[m
+[32m+[m[32m* PostgreSQL[m
+[32m+[m[32m* Flyway[m
+[32m+[m[32m* Swagger[m
+[32m+[m[32m* React routing[m
+[32m+[m[32m* Navbar/Footer[m
+[32m+[m[32m* Existing project/media functionality[m
+[32m+[m
+[32m+[m[32mBefore changing any existing component:[m
+[32m+[m
+[32m+[m[32m* Search for every usage.[m
+[32m+[m[32m* Understand the dependencies.[m
+[32m+[m[32m* Make the smallest safe change.[m
+[32m+[m[32m* Verify that existing routes still work.[m
+[32m+[m
+[32m+[m[32m---[m
+[32m+[m
+[32m+[m[32m# 6. DO NOT DUPLICATE COMPONENTS[m
+[32m+[m
+[32m+[m[32mBefore creating a component:[m
+[32m+[m
+[32m+[m[32mSEARCH THE REPOSITORY.[m
+[32m+[m
+[32m+[m[32mIf something similar already exists, extend or reuse it.[m
+[32m+[m
+[32m+[m[32mDo NOT create duplicates such as:[m
+[32m+[m
+[32m+[m[32mPrograms.jsx[m
+[32m+[m[32mProgramsSection.jsx[m
+[32m+[m[32mProgramsPage.jsx[m
+[32m+[m
+[32m+[m[32mwhen an existing Programs component already serves the purpose.[m
+[32m+[m
+[32m+[m[32mPrefer:[m
+[32m+[m
+[32m+[m[32mExisting component[m
+[32m+[m[32m↓[m
+[32m+[m

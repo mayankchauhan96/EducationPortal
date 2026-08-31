@@ -20,8 +20,8 @@ public class CurriculumService {
         "Foundation Explorers", List.of("Coding"),
         "Young Makers", List.of("Coding", "Robotics"),
         "Future Engineers", List.of("Coding", "Robotics", "Electronics"),
-        "Innovation Lab", List.of("Electronics", "AI & IoT"),
-        "Advanced Innovators", List.of("Electronics", "AI & IoT")
+        "Innovation Lab", List.of("Coding", "Robotics", "Electronics", "AI & IoT"),
+        "Advanced Innovators", List.of("Coding", "Robotics", "Electronics", "AI & IoT")
     );
 
     public CurriculumService(CurriculumRepository repository, ProgramRepository programRepository) {

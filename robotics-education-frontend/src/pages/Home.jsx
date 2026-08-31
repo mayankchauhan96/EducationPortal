@@ -18,7 +18,7 @@ export default function Home() {
         <Hero />
         <Skills />
         <Programs />
-        <Projects />
+        <Projects limit={3} />
         <Curriculum />
         <LearningJourney />
         <ForSchools />
