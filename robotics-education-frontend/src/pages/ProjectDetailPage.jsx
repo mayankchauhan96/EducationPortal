@@ -90,7 +90,7 @@ export default function ProjectDetailPage() {
 
         <div className="mt-8 rounded-3xl border border-zinc-800 bg-zinc-900 p-8 md:p-12">
           <div className="mb-8 overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-800">
-            <img src={imageSrc} alt={project.title} className="h-72 w-full object-cover md:h-96" />
+            <img src={imageSrc} alt={project.title} className="h-72 w-full object-contain md:h-96" />
           </div>
           <span className="text-xs uppercase tracking-[0.22em] text-zinc-400">{project.difficulty}</span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
