@@ -2,7 +2,7 @@ package com.robotics.education.project;
 
 import com.robotics.education.common.*;
 import com.robotics.education.program.Program;
-import com.robotics.education.program.ProgramRepository;
+import com.robotics.education.program.ProgramProjectLinkService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,11 +26,11 @@ public class ProjectAdminController {
         String skills, String imageUrl, String videoUrl, Integer displayOrder, boolean published, List<Long> programIds) {}
 
     private final ProjectRepository repo;
-    private final ProgramRepository programs;
+    private final ProgramProjectLinkService projectLinks;
 
-    public ProjectAdminController(ProjectRepository repo, ProgramRepository programs) {
+    public ProjectAdminController(ProjectRepository repo, ProgramProjectLinkService projectLinks) {
         this.repo = repo;
-        this.programs = programs;
+        this.projectLinks = projectLinks;
     }
 
     @GetMapping
@@ -46,7 +46,7 @@ public class ProjectAdminController {
         Project p = new Project();
         apply(p, r);
         p = repo.save(p);
-        syncProgramLinks(p, r.programIds());
+        projectLinks.setPrograms(p, r.programIds());
         return ApiResponse.created(map(p));
     }
 
@@ -56,7 +56,9 @@ public class ProjectAdminController {
         Project p = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project not found"));
         if (!p.getSlug().equals(r.slug()) && repo.existsBySlug(r.slug())) throw new IllegalArgumentException("Slug already exists");
         apply(p, r);
-        syncProgramLinks(p, r.programIds());
+        if (r.programIds() != null) {
+            projectLinks.setPrograms(p, r.programIds());
+        }
         return ApiResponse.ok(map(p));
     }
 
@@ -80,28 +82,6 @@ public class ProjectAdminController {
         p.setVideoUrl(r.videoUrl());
         p.setDisplayOrder(r.displayOrder() == null ? 0 : r.displayOrder());
         p.setPublished(r.published() == null || r.published());
-    }
-
-    private void syncProgramLinks(Project project, Set<Long> ids) {
-        Set<Long> desired = ids == null ? Set.of() : new HashSet<>(ids);
-        List<Program> all = programs.findAll();
-
-        for (Program program : all) {
-            boolean shouldLink = desired.contains(program.getId());
-            boolean linked = program.getProjects().stream().anyMatch(existing -> existing.getId().equals(project.getId()));
-
-            if (shouldLink && !linked) {
-                program.getProjects().add(project);
-            } else if (!shouldLink && linked) {
-                program.getProjects().removeIf(existing -> existing.getId().equals(project.getId()));
-            }
-        }
-
-        for (Long id : desired) {
-            if (all.stream().noneMatch(program -> program.getId().equals(id))) {
-                throw new ResourceNotFoundException("Program not found: " + id);
-            }
-        }
     }
 
     private Response map(Project p) {

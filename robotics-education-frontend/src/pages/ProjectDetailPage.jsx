@@ -96,7 +96,6 @@ export default function ProjectDetailPage() {
           <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
           <p className="mt-5 text-lg leading-8 text-zinc-300">{project.description}</p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
-            {project.gradeRange && <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-zinc-300">{project.gradeRange}</span>}
             {project.skills && <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-zinc-300">{project.skills}</span>}
           </div>
         </div>

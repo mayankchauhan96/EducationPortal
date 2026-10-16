@@ -138,7 +138,6 @@ export default function Projects({ limit }) {
                   <span className="text-xs uppercase tracking-widest text-zinc-500">{project.difficulty || "Project"}</span>
                   <h3 className="mt-2 text-2xl font-bold">{project.title}</h3>
                   <p className="mt-3 text-zinc-400">{project.skills || project.description}</p>
-                  <div className="mt-4 text-sm text-zinc-400">{project.gradeRange}</div>
                   <Link to={`/projects/${project.slug}`} className="mt-6 inline-flex font-semibold">View Project →</Link>
                 </div>
               </motion.article>
