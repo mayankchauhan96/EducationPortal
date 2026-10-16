@@ -67,10 +67,6 @@ export default function Programs() {
                   {program.description}
                 </p>
 
-                <span className="mt-3 block text-sm text-zinc-400">
-                  {program.ageGroup}
-                </span>
-
                 <Link
                   to={`/programs/${program.slug}`}
                   className="mt-7 inline-flex font-semibold group-hover:gap-3 transition-all"

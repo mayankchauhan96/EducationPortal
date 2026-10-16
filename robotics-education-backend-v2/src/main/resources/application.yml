@@ -1,11 +1,13 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: robotics-education-backend
 
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/robotics_education?options=-c%20TimeZone%3DUTC}
     username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:postgres}
+    password: ${DATABASE_PASSWORD:change_me}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -23,3 +25,8 @@ spring:
 
 server:
   port: ${PORT:${SERVER_PORT:8080}}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}

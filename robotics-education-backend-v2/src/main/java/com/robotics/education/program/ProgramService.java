@@ -20,6 +20,7 @@ public class ProgramService {
  private List<ProjectResponse> resolveProjects(Program p){
   List<Project> linked = p.getProjects() == null ? List.of() : p.getProjects().stream().sorted(Comparator.comparing(project -> project.getTitle().toLowerCase())).toList();
   return linked.stream()
+    .filter(Project::isPublished)
     .map(project -> new ProjectResponse(project.getId(), project.getTitle(), project.getSlug(), project.getDescription(), project.getDifficulty(), project.getGradeRange(), project.getSkills(), project.getImageUrl(), project.getVideoUrl(), project.isPublished()))
     .toList();
  }

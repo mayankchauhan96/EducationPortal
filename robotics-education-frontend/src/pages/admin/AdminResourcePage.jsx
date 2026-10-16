@@ -36,6 +36,23 @@ function Field({ field, value, onChange }) {
     );
   }
 
+  if (field.type === "multiselect") {
+    const selectedValues = Array.isArray(value) ? value.map(String) : [];
+    return (
+      <select
+        multiple
+        value={selectedValues}
+        onChange={(e) => onChange(Array.from(e.target.selectedOptions, (option) => Number(option.value)))}
+        disabled={field.disabled}
+        className={`${common} min-h-32`}
+      >
+        {field.options.map((option) => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    );
+  }
+
   return <input value={value ?? ""} onChange={(e) => onChange(e.target.value)} className={common} />;
 }
 
@@ -213,6 +230,7 @@ export default function AdminResourcePage({
                       value={form[field.key]}
                       onChange={(value) => setForm({ ...form, [field.key]: value })}
                     />
+                    {field.helpText && <span className="mt-1 block text-xs text-zinc-500">{field.helpText}</span>}
                   </label>
                 ))}
 

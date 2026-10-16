@@ -3,7 +3,6 @@ package com.robotics.education.program;
 import com.robotics.education.common.*;
 import com.robotics.education.curriculum.CurriculumRepository;
 import com.robotics.education.project.Project;
-import com.robotics.education.project.ProjectRepository;
 import com.robotics.education.project.ProjectResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/programs")
@@ -20,16 +18,13 @@ import java.util.stream.Collectors;
 public class ProgramAdminController {
     public record Request(
         @NotBlank String title, @NotBlank String slug, @NotBlank String description,
-        String ageGroup, String tag, String imageUrl, Integer displayOrder, Boolean published,
-        Set<Long> projectIds) {}
+        String ageGroup, String tag, String imageUrl, Integer displayOrder, Boolean published) {}
 
     private final ProgramRepository repo;
-    private final ProjectRepository projects;
     private final CurriculumRepository curricula;
 
-    public ProgramAdminController(ProgramRepository repo, ProjectRepository projects, CurriculumRepository curricula) {
+    public ProgramAdminController(ProgramRepository repo, CurriculumRepository curricula) {
         this.repo = repo;
-        this.projects = projects;
         this.curricula = curricula;
     }
 
@@ -47,7 +42,6 @@ public class ProgramAdminController {
         if (repo.existsBySlug(r.slug())) throw new IllegalArgumentException("Slug already exists");
         Program p = new Program();
         apply(p, r);
-        p.setProjects(resolveProjects(r.projectIds()));
         return ApiResponse.created(map(repo.save(p)));
     }
 
@@ -59,7 +53,6 @@ public class ProgramAdminController {
             throw new IllegalArgumentException("Slug already exists");
         }
         apply(p, r);
-        p.setProjects(resolveProjects(r.projectIds()));
         return ApiResponse.ok(map(repo.save(p)));
     }
 
@@ -82,13 +75,6 @@ public class ProgramAdminController {
         p.setImageUrl(r.imageUrl());
         p.setDisplayOrder(r.displayOrder() == null ? 0 : r.displayOrder());
         p.setPublished(r.published() == null || r.published());
-    }
-
-    private Set<Project> resolveProjects(Set<Long> ids) {
-        if (ids == null || ids.isEmpty()) return new HashSet<>();
-        return ids.stream()
-            .map(id -> projects.findById(id).orElseThrow(() -> new ResourceNotFoundException("Project not found: " + id)))
-            .collect(Collectors.toSet());
     }
 
     private ProgramResponse map(Program p) {

@@ -55,9 +55,6 @@ export default function CurriculumDetailPage() {
                     <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs uppercase tracking-[0.2em] text-zinc-600">{program.tag}</span>
                   </div>
                   <p className="mt-3 text-zinc-600">{program.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-600">
-                    <span className="rounded-full border border-zinc-300 px-2 py-1">{program.ageGroup}</span>
-                  </div>
                   <Link to={`/programs/${program.slug}`} className="mt-6 inline-flex font-semibold">View program →</Link>
                 </div>
               ))}

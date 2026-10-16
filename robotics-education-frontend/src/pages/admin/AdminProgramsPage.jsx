@@ -10,14 +10,12 @@ const emptyItem = {
   imageUrl: "",
   displayOrder: 0,
   published: true,
-  projectIds: [],
 };
 
 const fields = [
   { key: "title", label: "Title" },
   { key: "slug", label: "Slug" },
   { key: "description", label: "Description", type: "textarea" },
-  { key: "ageGroup", label: "Age group" },
   { key: "tag", label: "Tag" },
   { key: "imageUrl", label: "Image URL" },
   { key: "displayOrder", label: "Display order", type: "number" },
@@ -28,7 +26,7 @@ export default function AdminProgramsPage() {
   return (
     <AdminResourcePage
       title="Programs"
-      subtitle="Manage public programs served from PostgreSQL."
+      subtitle="Manage public programs. Assign projects manually from the Projects page."
       load={getAdminPrograms}
       create={createProgram}
       update={updateProgram}
@@ -37,7 +35,6 @@ export default function AdminProgramsPage() {
       emptyItem={emptyItem}
       columns={[
         { key: "title", label: "Title" },
-        { key: "ageGroup", label: "Age group" },
         { key: "tag", label: "Tag" },
         { key: "published", label: "Status" },
       ]}

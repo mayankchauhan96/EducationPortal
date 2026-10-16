@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "CosmoHeads",
-  shortName: "CH",
+  name: "NextGen Labs",
+  shortName: "NG",
   tagline: "Building tomorrow's innovators.",
   description:
     "School-integrated robotics, coding and STEM programs that turn curiosity into real-world skills.",

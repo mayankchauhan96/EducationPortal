@@ -38,7 +38,6 @@ export default function ProgramDetailPage() {
           <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 md:text-5xl">{program.title}</h1>
           <p className="mt-5 text-lg leading-8 text-zinc-700">{program.description}</p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
-            <span className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-zinc-700">{program.ageGroup}</span>
             <span className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-zinc-700">{program.displayOrder}</span>
           </div>
         </div>
@@ -57,7 +56,6 @@ export default function ProgramDetailPage() {
                   </div>
                   <p className="mt-3 text-zinc-600">{project.description}</p>
                   <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-600">
-                    {project.gradeRange && <span className="rounded-full border border-zinc-300 px-2 py-1">{project.gradeRange}</span>}
                     {project.skills && <span className="rounded-full border border-zinc-300 px-2 py-1">{project.skills}</span>}
                   </div>
                   <Link to={`/projects/${project.slug}`} className="mt-6 inline-flex font-semibold">View project →</Link>
