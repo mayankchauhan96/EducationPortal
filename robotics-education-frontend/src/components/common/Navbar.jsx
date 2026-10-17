@@ -9,14 +9,15 @@ const links = [
   ["About", "/about"],
 ];
 
-export default function Navbar() {
+export default function Navbar({ theme, onThemeChange }) {
   const [open, setOpen] = useState(false);
+  const nextTheme = theme === "dark" ? "light" : "dark";
 
   return (
     <header className="fixed top-0 z-50 w-full border-b border-zinc-200/80 bg-white/90 backdrop-blur-xl">
       <div className="container-shell h-20 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-black text-white text-sm font-bold">
+          <span className="brand-mark grid h-10 w-10 place-items-center rounded-xl bg-black text-white text-sm font-bold">
             {siteConfig.shortName}
           </span>
           <span className="font-bold tracking-tight">{siteConfig.name}</span>
@@ -28,7 +29,25 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-3 lg:flex">
+          <button
+            type="button"
+            onClick={onThemeChange}
+            aria-label={`Switch to ${nextTheme} mode`}
+            title={`Switch to ${nextTheme} mode`}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-zinc-300 text-zinc-700 transition hover:bg-zinc-100"
+          >
+            {theme === "dark" ? (
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+                <circle cx="12" cy="12" r="4" />
+                <path strokeLinecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+              </svg>
+            ) : (
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z" />
+              </svg>
+            )}
+          </button>
           <Link to="/contact" className="btn-primary">{siteConfig.primaryCta}</Link>
         </div>
 
@@ -51,6 +70,24 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          <button
+            type="button"
+            onClick={onThemeChange}
+            aria-label={`Switch to ${nextTheme} mode`}
+            className="flex min-h-11 w-full items-center gap-3 rounded-xl px-4 py-3 text-left font-medium transition hover:bg-zinc-100"
+          >
+            {theme === "dark" ? (
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+                <circle cx="12" cy="12" r="4" />
+                <path strokeLinecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+              </svg>
+            ) : (
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.5 15.5A8.5 8.5 0 0 1 8.5 3.5 8.5 8.5 0 1 0 20.5 15.5Z" />
+              </svg>
+            )}
+            Switch to {nextTheme} mode
+          </button>
           <Link to="/contact" onClick={() => setOpen(false)} className="btn-primary block text-center">
             {siteConfig.primaryCta}
           </Link>

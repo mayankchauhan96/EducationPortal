@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getCurriculumBySlug } from "../api/curriculumApi";
+import BackLink from "../components/common/BackLink";
+import { createReturnState } from "../utils/navigation";
 
 export default function CurriculumDetailPage() {
   const { slug } = useParams();
+  const location = useLocation();
   const [curriculum, setCurriculum] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -34,7 +37,7 @@ export default function CurriculumDetailPage() {
   return (
     <main className="section bg-white">
       <div className="container-shell max-w-5xl">
-        <Link to="/curriculum" className="text-sm font-medium text-zinc-500">← Back to curriculum</Link>
+        <BackLink fallbackTo="/curriculum" fallbackLabel="curriculum" className="text-sm font-medium text-zinc-500 transition hover:text-black" />
 
         <div className="mt-8 rounded-3xl border border-zinc-200 bg-zinc-50 p-8 md:p-12">
           <span className="text-xs uppercase tracking-[0.22em] text-zinc-500">{curriculum.gradeRange}</span>
@@ -55,7 +58,13 @@ export default function CurriculumDetailPage() {
                     <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs uppercase tracking-[0.2em] text-zinc-600">{program.tag}</span>
                   </div>
                   <p className="mt-3 text-zinc-600">{program.description}</p>
-                  <Link to={`/programs/${program.slug}`} className="mt-6 inline-flex font-semibold">View program →</Link>
+                  <Link
+                    to={`/programs/${program.slug}`}
+                    state={createReturnState(location, { label: `curriculum · ${curriculum.levelName}` })}
+                    className="mt-6 inline-flex min-h-11 items-center font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-900"
+                  >
+                    View program →
+                  </Link>
                 </div>
               ))}
             </div>

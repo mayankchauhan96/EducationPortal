@@ -6,5 +6,9 @@ public record PageContentResponse(
     String sectionTitle,
     String sectionBody,
     String bullets,
-    Integer displayOrder
+    Integer displayOrder,
+    String category,
+    String imageUrl,
+    String imageAltText,
+    String attribution
 ) {}
