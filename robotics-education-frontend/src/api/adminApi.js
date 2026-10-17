@@ -26,11 +26,21 @@ export async function deleteProgram(id) {
 export async function getAdminProjects() {
   return unwrap(await apiClient.get("/admin/projects"));
 }
+
+function requireListImageSupport(project) {
+  if (!project || !Object.prototype.hasOwnProperty.call(project, "listImageUrl")) {
+    throw new Error(
+      "The running backend does not support project list images yet. Restart or redeploy the updated backend and apply Flyway migration V11."
+    );
+  }
+  return project;
+}
+
 export async function createProject(payload) {
-  return unwrap(await apiClient.post("/admin/projects", payload));
+  return requireListImageSupport(unwrap(await apiClient.post("/admin/projects", payload)));
 }
 export async function updateProject(id, payload) {
-  return unwrap(await apiClient.put(`/admin/projects/${id}`, payload));
+  return requireListImageSupport(unwrap(await apiClient.put(`/admin/projects/${id}`, payload)));
 }
 export async function deleteProject(id) {
   return unwrap(await apiClient.delete(`/admin/projects/${id}`));

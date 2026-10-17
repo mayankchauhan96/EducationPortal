@@ -121,7 +121,7 @@ export default function AdminResourcePage({
       cancel();
       await refresh();
     } catch (e) {
-      setError(e.response?.data?.message || "Failed to save.");
+      setError(e.response?.data?.message || e.message || "Failed to save.");
     } finally {
       setSaving(false);
     }
