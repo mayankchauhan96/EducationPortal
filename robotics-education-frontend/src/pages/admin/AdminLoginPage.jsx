@@ -10,6 +10,7 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("change-me-local-only");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const isPortalLogin = location.pathname.startsWith("/portal");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,7 +21,13 @@ export default function AdminLoginPage() {
       const response = await apiClient.post("/auth/login", { email, password });
       const payload = response.data?.data ?? response.data;
       saveAdminSession(payload);
-      navigate(location.state?.from || "/admin", { replace: true });
+      const isAdmin = ["ADMIN", "EDITOR"].includes(payload.role);
+      const destination = isAdmin ? "/admin" : "/portal";
+      const requestedPath = location.state?.from;
+      const validRequestedPath = isAdmin
+        ? requestedPath?.startsWith("/admin")
+        : requestedPath?.startsWith("/portal");
+      navigate(validRequestedPath ? requestedPath : destination, { replace: true });
     } catch (err) {
       setError(err.response?.data?.message || "Invalid email or password.");
     } finally {
@@ -32,9 +39,9 @@ export default function AdminLoginPage() {
     <main className="min-h-screen bg-zinc-950 px-5 py-10 text-white">
       <div className="mx-auto flex min-h-[80vh] max-w-md items-center">
         <div className="w-full rounded-3xl border border-zinc-800 bg-zinc-900 p-8 shadow-2xl">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-zinc-500">ADMIN PORTAL</p>
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-zinc-500">{isPortalLogin ? "LEARNING PORTAL" : "ADMIN PORTAL"}</p>
           <h1 className="mt-3 text-4xl font-black">Welcome back.</h1>
-          <p className="mt-3 text-zinc-400">Manage programs, curriculum, projects, and school enquiries.</p>
+          <p className="mt-3 text-zinc-400">{isPortalLogin ? "Sign in to track syllabus, projects, and classroom progress." : "Manage programs, curriculum, projects, and school enquiries."}</p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <label className="block">

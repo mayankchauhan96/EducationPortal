@@ -17,9 +17,13 @@ const normalizeCategory = (story) => {
   const category = (story.category || "").toLowerCase().replaceAll(" ", "-");
   if (pageKey.includes("students")) return "students";
   if (pageKey.includes("labs")) return "labs";
+  if (pageKey.includes("workshops")) return "workshops";
+  if (pageKey.includes("awards")) return "awards";
   if (pageKey.includes("partner-schools")) return "partner-schools";
   if (category.includes("student")) return "students";
   if (category.includes("lab")) return "labs";
+  if (category.includes("workshop")) return "workshops";
+  if (category.includes("award")) return "awards";
   if (category.includes("school")) return "partner-schools";
   return "others";
 };
@@ -36,21 +40,13 @@ const shuffle = (items) => {
 function selectCarouselStories(stories) {
   const uniqueStories = [...new Map(stories.map((story) => [story.id, story])).values()];
   const categories = [
-    { key: "students", label: "Student stories" },
-    { key: "labs", label: "Lab stories" },
-    { key: "partner-schools", label: "Partner schools" },
+    "students",
+    "labs",
+    "partner-schools",
   ];
-  const selected = categories.map(({ key, label }) => {
-    const story = shuffle(uniqueStories.filter((item) => normalizeCategory(item) === key))[0];
-    return story || {
-      id: `empty-${key}`,
-      pageKey: `testimonials-${key}`,
-      category: key,
-      sectionTitle: `${label} coming soon`,
-      sectionBody: `No ${label.toLowerCase()} have been published yet.`,
-      isPlaceholder: true,
-    };
-  });
+  const selected = categories
+    .map((category) => shuffle(uniqueStories.filter((story) => normalizeCategory(story) === category))[0])
+    .filter(Boolean);
   const remaining = shuffle(uniqueStories.filter((story) => !selected.includes(story)));
 
   return [...shuffle(selected), ...remaining];
@@ -83,10 +79,12 @@ function CommunityCard({ story }) {
       <div className="flex flex-1 flex-col p-4">
         <p className="text-xs font-semibold uppercase tracking-wider text-zinc-600">{category}</p>
         <h3 className="mt-1 text-base font-bold text-zinc-900">{story.sectionTitle}</h3>
-        {story.attribution && <p className="mt-1 text-sm text-zinc-600">{story.attribution}</p>}
-        {story.isPlaceholder && (
-          <p className="mt-1 text-sm text-zinc-600">{story.sectionBody}</p>
+        {story.sectionBody && (
+          <p className="mt-2 text-sm leading-5 text-zinc-600">
+            {story.sectionBody.length > 160 ? `${story.sectionBody.slice(0, 157).trimEnd()}…` : story.sectionBody}
+          </p>
         )}
+        {story.attribution && <p className="mt-1 text-sm text-zinc-600">{story.attribution}</p>}
         {imageUrls.length > 1 && (
           <p className="mt-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
             {imageUrls.length} photos
@@ -166,8 +164,7 @@ export default function HomeCommunityPreview() {
     };
   }, []);
 
-  if (!started) return <div ref={sectionRef} aria-hidden="true" className="h-px" />;
-  if (!loading && !error && stories.length === 0) return null;
+  if (started && !loading && !error && stories.length === 0) return null;
 
   return (
     <section ref={sectionRef} className="section bg-zinc-50 py-12 sm:py-14 lg:py-16">
@@ -175,11 +172,11 @@ export default function HomeCommunityPreview() {
         <SectionHeader
           eyebrow="OUR COMMUNITY"
           title="Learning comes to life together."
-          text="A few moments from the schools, students, and hands-on experiences in our community."
+          text="Student projects, hands-on workshops, school partnerships, and achievements from our learning community."
           centered
         />
 
-        {loading ? (
+        {!started || loading ? (
           <p className="py-8 text-center text-zinc-500" role="status">Loading community stories…</p>
         ) : error ? (
           <p className="py-6 text-center text-zinc-600" role="status">{error}</p>

@@ -18,19 +18,22 @@ const categoryDetails = {
   labs: { label: "In the lab", icon: "🤖" },
   seminars: { label: "Seminar", icon: "🎤" },
   workshops: { label: "Workshop", icon: "🛠️" },
+  awards: { label: "Award", icon: "🏆" },
   stories: { label: "Community story", icon: "💬" },
 };
 
 const getStoryCategory = (story) => {
-  const category = (story.category || "").toLowerCase().replaceAll(" ", "-");
-  if (categoryDetails[category]) return category;
-
   const pageKey = (story.pageKey || "").toLowerCase();
   if (pageKey.includes("partner-schools")) return "partner-schools";
   if (pageKey.includes("students")) return "students";
   if (pageKey.includes("labs")) return "labs";
+  if (pageKey.includes("workshops")) return "workshops";
+  if (pageKey.includes("awards")) return "awards";
   if (pageKey.includes("seminars")) return "seminars";
   if (pageKey.includes("workshops")) return "workshops";
+
+  const category = (story.category || "").toLowerCase().replaceAll(" ", "-");
+  if (categoryDetails[category]) return category;
   return "stories";
 };
 
@@ -210,6 +213,8 @@ export default function TestimonialsPage({
             { label: "Partner Schools", to: "/testimonials/partner-schools" },
             { label: "Students", to: "/testimonials/students" },
             { label: "Labs", to: "/testimonials/labs" },
+            { label: "Workshops", to: "/testimonials/workshops" },
+            { label: "Awards", to: "/testimonials/awards" },
             { label: "Community", to: "/testimonials/community" },
             { label: "Others", to: "/testimonials/others" },
           ].map((link) => (
@@ -221,6 +226,8 @@ export default function TestimonialsPage({
                 (link.to === "/testimonials/partner-schools" && pageKey === "testimonials-partner-schools") ||
                 (link.to === "/testimonials/students" && pageKey === "testimonials-students") ||
                 (link.to === "/testimonials/labs" && pageKey === "testimonials-labs") ||
+                (link.to === "/testimonials/workshops" && pageKey === "testimonials-workshops") ||
+                (link.to === "/testimonials/awards" && pageKey === "testimonials-awards") ||
                 (link.to === "/testimonials/community" && pageKey === "testimonials-community") ||
                 (link.to === "/testimonials/others" && pageKey === "testimonials-others")
                   ? "border-zinc-900 bg-zinc-900 text-white"

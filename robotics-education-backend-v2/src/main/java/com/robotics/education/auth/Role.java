@@ -2,5 +2,9 @@ package com.robotics.education.auth;
 
 public enum Role {
     ADMIN,
-    EDITOR
+    EDITOR,
+    STUDENT,
+    PRINCIPAL,
+    TEACHER,
+    PARENT
 }

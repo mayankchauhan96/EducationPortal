@@ -25,6 +25,10 @@ import TestimonialsAdminPage from "./pages/admin/TestimonialsAdminPage";
 import AdminContactsPage from "./pages/admin/AdminContactsPage";
 import AdminDemoRequestsPage from "./pages/admin/AdminDemoRequestsPage";
 import AdminUsersPage from "./pages/admin/AdminUsersPage";
+import AdminAcademicSetupPage from "./pages/admin/AdminAcademicSetupPage";
+import AdminCurriculumLessonsPage from "./pages/admin/AdminCurriculumLessonsPage";
+import PortalRoute from "./pages/portal/PortalRoute";
+import PortalDashboardPage from "./pages/portal/PortalDashboardPage";
 
 const Programs = lazy(() => import("./components/home/Programs"));
 const Projects = lazy(() => import("./components/home/Projects"));
@@ -53,6 +57,8 @@ export default function App() {
           <Route path="/testimonials/partner-schools" element={<TestimonialsPage pageKey="testimonials-partner-schools" eyebrow="PARTNER SCHOOLS" title="Schools building what comes next." description="See how partner schools bring robotics, coding, and hands-on STEM learning into the classroom." />} />
           <Route path="/testimonials/students" element={<TestimonialsPage pageKey="testimonials-students" eyebrow="STUDENT STORIES" title="Student ambition in action." description="Real moments from students building, coding, and solving problems with confidence." />} />
           <Route path="/testimonials/labs" element={<TestimonialsPage pageKey="testimonials-labs" eyebrow="LAB STORIES" title="Hands-on learning in the lab." description="Behind-the-scenes moments from robotics labs, prototyping, and experimentation." />} />
+          <Route path="/testimonials/workshops" element={<TestimonialsPage pageKey="testimonials-workshops" eyebrow="WORKSHOPS" title="Learning by building together." description="Explore workshops where students and educators learn through hands-on robotics, coding, and STEM activities." />} />
+          <Route path="/testimonials/awards" element={<TestimonialsPage pageKey="testimonials-awards" eyebrow="AWARDS & ACHIEVEMENTS" title="Celebrating ideas and achievement." description="Recognizing the students, schools, and teams whose creativity and dedication stand out." />} />
           <Route path="/testimonials/community" element={<TestimonialsPage pageKey="testimonials-community" eyebrow="COMMUNITY STORIES" title="A community that keeps growing." description="Stories from partner schools, events, and collaborative learning experiences." />} />
           <Route path="/testimonials/others" element={<TestimonialsPage pageKey="testimonials-others" eyebrow="MORE STORIES" title="More moments from the learning journey." description="Additional classroom, workshop, and school stories from our ecosystem." />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -60,18 +66,24 @@ export default function App() {
         </Route>
 
         <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/portal/login" element={<AdminLoginPage />} />
         <Route element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboardPage />} />
             <Route path="/admin/programs" element={<AdminProgramsPage />} />
             <Route path="/admin/projects" element={<AdminProjectsPage />} />
             <Route path="/admin/curriculum" element={<AdminCurriculumPage />} />
+            <Route path="/admin/curriculum/lessons" element={<AdminCurriculumLessonsPage />} />
             <Route path="/admin/page-content" element={<AdminPageContentPage />} />
             <Route path="/admin/testimonials" element={<TestimonialsAdminPage />} />
             <Route path="/admin/contacts" element={<AdminContactsPage />} />
             <Route path="/admin/demo-requests" element={<AdminDemoRequestsPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/academic" element={<AdminAcademicSetupPage />} />
           </Route>
+        </Route>
+        <Route element={<PortalRoute />}>
+          <Route path="/portal" element={<PortalDashboardPage />} />
         </Route>
       </Routes>
     </Suspense>

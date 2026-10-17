@@ -13,7 +13,7 @@ export default function FinalCta() {
             Let's explore how a robotics and coding program can fit into your school's learning journey.
           </p>
           <div className="mt-9">
-            <Link to="/contact" className="btn-primary">Book a School Demo <span>↗</span></Link>
+            <Link to="/demo-request" className="btn-primary">Book a School Demo <span>↗</span></Link>
           </div>
         </div>
       </div>

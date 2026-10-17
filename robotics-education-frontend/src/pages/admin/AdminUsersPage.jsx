@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { createAdminUser, getAdminUsers, setAdminUserActive } from "../../api/adminApi";
 
+const roles = ["ADMIN", "EDITOR", "STUDENT", "PRINCIPAL", "TEACHER", "PARENT"];
+
 export default function AdminUsersPage() {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState({ email: "", password: "", role: "EDITOR" });
@@ -27,33 +29,47 @@ export default function AdminUsersPage() {
     <div className="p-5 lg:p-10">
       <div className="mx-auto max-w-5xl">
         <p className="eyebrow">ACCESS CONTROL</p>
-        <h1 className="section-title">Admin Users</h1>
+        <h1 className="section-title">User Accounts</h1>
+        <p className="mt-2 text-zinc-600">Create CMS accounts and school learning portal accounts. School and classroom access is assigned in Academic Setup.</p>
 
         <form onSubmit={submit} className="mt-8 grid gap-4 rounded-3xl border border-zinc-200 bg-white p-6 md:grid-cols-4">
-          <input
-            required
-            type="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className="rounded-xl border border-zinc-300 px-3 py-2.5"
-          />
-          <input
-            required
-            minLength="8"
-            placeholder="Password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            className="rounded-xl border border-zinc-300 px-3 py-2.5"
-          />
-          <select
-            value={form.role}
-            onChange={(e) => setForm({ ...form, role: e.target.value })}
-            className="rounded-xl border border-zinc-300 px-3 py-2.5"
-          >
-            <option>EDITOR</option>
-            <option>ADMIN</option>
-          </select>
+          <label className="block text-sm font-medium text-zinc-700">
+            Email <span className="text-red-600" aria-hidden="true">*</span>
+            <span className="sr-only"> (required)</span>
+            <input
+              required
+              type="email"
+              autoComplete="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              className="mt-1 w-full rounded-xl border border-zinc-300 px-3 py-2.5"
+            />
+          </label>
+          <label className="block text-sm font-medium text-zinc-700">
+            Password <span className="text-red-600" aria-hidden="true">*</span>
+            <span className="sr-only"> (required)</span>
+            <input
+              required
+              type="password"
+              autoComplete="new-password"
+              minLength={8}
+              maxLength={100}
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              className="mt-1 w-full rounded-xl border border-zinc-300 px-3 py-2.5"
+            />
+          </label>
+          <label className="block text-sm font-medium text-zinc-700">
+            Role
+            <select
+              required
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+              className="mt-1 w-full rounded-xl border border-zinc-300 px-3 py-2.5"
+            >
+              {roles.map((role) => <option key={role}>{role}</option>)}
+            </select>
+          </label>
           <button className="btn-primary">Create user</button>
         </form>
 

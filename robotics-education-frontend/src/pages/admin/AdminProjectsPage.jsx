@@ -18,12 +18,13 @@ const emptyItem = {
 };
 
 const projectFields = [
-  { key: "title", label: "Title" },
-  { key: "slug", label: "Slug" },
+  { key: "title", label: "Title", required: true },
+  { key: "slug", label: "Slug", required: true },
   {
     key: "description",
     label: "Description",
     type: "textarea",
+    required: true,
     helpText: "Use line breaks to separate paragraphs.",
   },
   { key: "difficulty", label: "Difficulty" },

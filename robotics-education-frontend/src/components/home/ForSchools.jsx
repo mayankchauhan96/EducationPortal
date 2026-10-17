@@ -96,7 +96,7 @@ export default function ForSchools() {
         )}
 
         <div className="mt-10">
-          <Link to="/contact" className="btn-primary">Bring Robotics to Your School <span>↗</span></Link>
+          <Link to="/demo-request" className="btn-primary">Bring Robotics to Your School <span>↗</span></Link>
         </div>
       </div>
     </section>

@@ -24,10 +24,13 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401 && window.location.pathname.startsWith("/admin")) {
+    if (error.response?.status === 401 && !error.config?.url?.includes("/auth/login") && (
+      window.location.pathname.startsWith("/admin") ||
+      window.location.pathname.startsWith("/portal")
+    )) {
       sessionStorage.removeItem("admin_token");
       sessionStorage.removeItem("admin_user");
-      window.location.href = "/admin/login";
+      window.location.href = window.location.pathname.startsWith("/portal") ? "/portal/login" : "/admin/login";
     }
     return Promise.reject(error);
   }

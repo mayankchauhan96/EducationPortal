@@ -3,10 +3,15 @@ import { getAdminSession } from "../../utils/adminAuth";
 
 export default function AdminRoute() {
   const location = useLocation();
+  const session = getAdminSession();
 
-  return getAdminSession() ? (
+  return session && ["ADMIN", "EDITOR"].includes(session.user.role) ? (
     <Outlet />
   ) : (
-    <Navigate to="/admin/login" replace state={{ from: location.pathname }} />
+    <Navigate
+      to={session ? "/portal" : "/admin/login"}
+      replace
+      state={{ from: location.pathname }}
+    />
   );
 }

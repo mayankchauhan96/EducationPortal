@@ -36,7 +36,7 @@ export default function Hero() {
             {siteConfig.description}
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Link to="/contact" className="btn-primary">{siteConfig.primaryCta} <span>↗</span></Link>
+            <Link to="/demo-request" className="btn-primary">{siteConfig.primaryCta} <span>↗</span></Link>
             <Link to="/programs" className="btn-secondary">{siteConfig.secondaryCta}</Link>
           </div>
           <div className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-zinc-500">
