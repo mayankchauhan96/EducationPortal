@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PageContentRepository extends JpaRepository<PageContent, Long> {
     List<PageContent> findAllByPageKeyAndPublishedTrueOrderByDisplayOrderAsc(String pageKey);
+
+    List<PageContent> findAllByPageKeyInAndPublishedTrueOrderByDisplayOrderAsc(List<String> pageKeys);
 }

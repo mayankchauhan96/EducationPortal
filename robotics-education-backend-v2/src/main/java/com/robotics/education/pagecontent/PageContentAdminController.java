@@ -3,6 +3,7 @@ package com.robotics.education.pagecontent;
 import com.robotics.education.common.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,11 @@ import java.util.List;
 public class PageContentAdminController {
     public record Request(
         @NotBlank String pageKey, @NotBlank String sectionTitle, @NotBlank String sectionBody,
-        String bullets, Integer displayOrder, Boolean published) {}
+        String bullets, Integer displayOrder, Boolean published,
+        @Size(max = 40) String category,
+        @Size(max = 1000) String imageUrl,
+        @Size(max = 250) String imageAltText,
+        @Size(max = 160) String attribution) {}
 
     private final PageContentRepository repo;
 
@@ -53,11 +58,17 @@ public class PageContentAdminController {
         p.setSectionTitle(r.sectionTitle());
         p.setSectionBody(r.sectionBody());
         p.setBullets(r.bullets());
+        p.setCategory(r.category());
+        p.setImageUrl(r.imageUrl());
+        p.setImageAltText(r.imageAltText());
+        p.setAttribution(r.attribution());
         p.setDisplayOrder(r.displayOrder() == null ? 0 : r.displayOrder());
         p.setPublished(r.published() == null || r.published());
     }
 
     private PageContentResponse map(PageContent p) {
-        return new PageContentResponse(p.getId(), p.getPageKey(), p.getSectionTitle(), p.getSectionBody(), p.getBullets(), p.getDisplayOrder());
+        return new PageContentResponse(
+            p.getId(), p.getPageKey(), p.getSectionTitle(), p.getSectionBody(), p.getBullets(),
+            p.getDisplayOrder(), p.getCategory(), p.getImageUrl(), p.getImageAltText(), p.getAttribution());
     }
 }

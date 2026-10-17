@@ -52,12 +52,12 @@ export default function AdminDemoRequestsPage() {
                     <td className="px-5 py-4">{item.grades || "—"}</td>
                     <td className="px-5 py-4">
                       <select
-                        value={item.status}
+                        value={item.status || "NEW"}
                         onChange={(e) => update(item.id, e.target.value)}
                         className="rounded-lg border border-zinc-300 px-2 py-1"
                       >
-                        {["NEW", "CONTACTED", "QUALIFIED", "CLOSED"].map((value) => (
-                          <option key={value}>{value}</option>
+                        {["NEW", "CONTACTED", "IN_PROGRESS", "QUALIFIED", "CLOSED"].map((value) => (
+                          <option key={value} value={value}>{value}</option>
                         ))}
                       </select>
                     </td>

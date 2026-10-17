@@ -22,6 +22,18 @@ public class PageContent extends AuditableEntity {
     @Column(length = 1500)
     private String bullets;
 
+    @Column(length = 40)
+    private String category;
+
+    @Column(name = "image_url", length = 1000)
+    private String imageUrl;
+
+    @Column(name = "image_alt_text", length = 250)
+    private String imageAltText;
+
+    @Column(length = 160)
+    private String attribution;
+
     @Column(name = "display_order", nullable = false)
     private Integer displayOrder = 0;
 
@@ -42,6 +54,18 @@ public class PageContent extends AuditableEntity {
 
     public String getBullets() { return bullets; }
     public void setBullets(String bullets) { this.bullets = bullets; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getImageAltText() { return imageAltText; }
+    public void setImageAltText(String imageAltText) { this.imageAltText = imageAltText; }
+
+    public String getAttribution() { return attribution; }
+    public void setAttribution(String attribution) { this.attribution = attribution; }
 
     public Integer getDisplayOrder() { return displayOrder; }
     public void setDisplayOrder(Integer displayOrder) { this.displayOrder = displayOrder; }

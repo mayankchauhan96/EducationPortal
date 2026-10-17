@@ -37,6 +37,21 @@ function Field({ field, value, onChange }) {
     );
   }
 
+  if (field.type === "select") {
+    return (
+      <select
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        className={common}
+      >
+        <option value="">Select {field.label.toLowerCase()}</option>
+        {field.options.map((option) => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    );
+  }
+
   if (field.type === "multiselect") {
     const selectedValues = Array.isArray(value) ? value.map(String) : [];
     return (

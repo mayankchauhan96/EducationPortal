@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getPrograms } from "../../api/programApi";
 import SectionHeader from "../common/SectionHeader";
+import { createReturnState } from "../../utils/navigation";
 
 const programIcons = {
   Robotics: "🤖",
@@ -12,6 +13,7 @@ const programIcons = {
 };
 
 export default function Programs() {
+  const location = useLocation();
   const [programs, setPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +33,7 @@ export default function Programs() {
   }, []);
 
   return (
-    <section className="section bg-white">
+    <section id="program-list" className="section scroll-mt-24 bg-white">
       <div className="container-shell">
         <SectionHeader
           eyebrow="OUR PROGRAMS"
@@ -48,7 +50,11 @@ export default function Programs() {
             {programs.map((program, i) => (
               <motion.article
                 key={program.id}
-                whileHover={{ y: -7 }}
+                whileHover={{ y: -4 }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.35, delay: Math.min(i, 3) * 0.06 }}
                 className="group rounded-3xl border border-zinc-200 p-7 transition-shadow hover:shadow-soft"
               >
                 <div className="flex items-center justify-between">
@@ -69,7 +75,11 @@ export default function Programs() {
 
                 <Link
                   to={`/programs/${program.slug}`}
-                  className="mt-7 inline-flex font-semibold group-hover:gap-3 transition-all"
+                  state={createReturnState(location, {
+                    hash: location.pathname === "/" ? "#program-list" : location.hash,
+                    label: "programs",
+                  })}
+                  className="mt-7 inline-flex min-h-11 items-center font-semibold transition-all group-hover:gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-900"
                 >
                   Explore <span>→</span>
                 </Link>

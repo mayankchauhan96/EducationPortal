@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getProgramBySlug } from "../api/programApi";
+import BackLink from "../components/common/BackLink";
+import { createReturnState } from "../utils/navigation";
 
 const truncateDescription = (description, maxLength = 150) => {
   const text = (description || "").replace(/\s+/g, " ").trim();
@@ -9,6 +11,7 @@ const truncateDescription = (description, maxLength = 150) => {
 
 export default function ProgramDetailPage() {
   const { slug } = useParams();
+  const location = useLocation();
   const [program, setProgram] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -36,7 +39,7 @@ export default function ProgramDetailPage() {
   return (
     <main className="section bg-white">
       <div className="container-shell max-w-5xl">
-        <Link to="/programs" className="text-sm font-medium text-zinc-500">← Back to programs</Link>
+        <BackLink fallbackTo="/programs" fallbackLabel="programs" className="text-sm font-medium text-zinc-500 transition hover:text-black" />
 
         <div className="mt-8 rounded-3xl border border-zinc-200 bg-zinc-50 p-8 md:p-12">
           <span className="text-xs uppercase tracking-[0.22em] text-zinc-500">{program.tag}</span>
@@ -68,7 +71,13 @@ export default function ProgramDetailPage() {
                   <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-600">
                     {project.skills && <span className="rounded-full border border-zinc-300 px-2 py-1">{project.skills}</span>}
                   </div>
-                  <Link to={`/projects/${project.slug}`} className="mt-6 inline-flex font-semibold">View project →</Link>
+                  <Link
+                    to={`/projects/${project.slug}`}
+                    state={createReturnState(location, { label: `programs · ${program.title}` })}
+                    className="mt-6 inline-flex min-h-11 items-center font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-900"
+                  >
+                    View project →
+                  </Link>
                 </div>
               ))}
             </div>

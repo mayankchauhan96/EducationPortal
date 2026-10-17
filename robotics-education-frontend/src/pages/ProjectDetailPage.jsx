@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getProjectBySlug } from "../api/projectApi";
+import BackLink from "../components/common/BackLink";
 
 const isUsableImageUrl = (url) => {
   if (!url || !url.trim()) return false;
@@ -134,11 +135,12 @@ export default function ProjectDetailPage() {
     : createProjectImage(project.title, project.difficulty);
   const video = getVideoSource(project.videoUrl);
   const descriptionParts = splitDescription(project.description);
+  const skillTags = (project.skills || "").split(/[•,|]/).map((skill) => skill.trim()).filter(Boolean);
 
   return (
     <main className="section bg-zinc-950 text-white">
       <div className="container-shell max-w-5xl">
-        <Link to="/projects" className="text-sm font-medium text-zinc-400">← Back to projects</Link>
+        <BackLink fallbackTo="/projects" fallbackLabel="projects" className="text-sm font-medium text-zinc-400 transition hover:text-white" />
 
         <div className="mt-8 rounded-3xl border border-zinc-800 bg-zinc-900 p-8 md:p-12">
           <div className="mb-8">
@@ -155,6 +157,11 @@ export default function ProjectDetailPage() {
           </div>
           <span className="text-xs uppercase tracking-[0.22em] text-zinc-400">{project.difficulty}</span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {[project.gradeRange, project.difficulty].filter(Boolean).map((detail) => (
+              <span key={detail} className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-sm text-zinc-300">{detail}</span>
+            ))}
+          </div>
           <h2 className="mt-5 text-xl font-semibold">About this project</h2>
           <div className="mt-5 space-y-5 text-lg leading-8 text-zinc-300">
             {descriptionParts.map((part, index) => (
@@ -187,9 +194,16 @@ export default function ProjectDetailPage() {
               </Fragment>
             ))}
           </div>
-          <div className="mt-6 flex flex-wrap gap-3 text-sm">
-            {project.skills && <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-zinc-300">{project.skills}</span>}
-          </div>
+          {skillTags.length > 0 && (
+            <section className="mt-8 border-t border-zinc-800 pt-6" aria-labelledby="project-skills-title">
+              <h2 id="project-skills-title" className="text-sm font-semibold uppercase tracking-[0.16em] text-zinc-400">Skills you’ll explore</h2>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {skillTags.map((skill) => (
+                  <li key={skill} className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-sm text-zinc-300">{skill}</li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
       </div>
     </main>
