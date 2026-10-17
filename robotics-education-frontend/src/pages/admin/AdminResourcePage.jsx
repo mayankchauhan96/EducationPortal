@@ -7,6 +7,7 @@ function Field({ field, value, onChange }) {
     return (
       <textarea
         rows={field.rows || 4}
+        maxLength={field.maxLength}
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
         className={common}
@@ -120,7 +121,7 @@ export default function AdminResourcePage({
       cancel();
       await refresh();
     } catch (e) {
-      setError(e.response?.data?.message || "Failed to save.");
+      setError(e.response?.data?.message || e.message || "Failed to save.");
     } finally {
       setSaving(false);
     }
@@ -231,6 +232,11 @@ export default function AdminResourcePage({
                       onChange={(value) => setForm({ ...form, [field.key]: value })}
                     />
                     {field.helpText && <span className="mt-1 block text-xs text-zinc-500">{field.helpText}</span>}
+                    {field.maxLength && (
+                      <span className="mt-1 block text-right text-xs text-zinc-500">
+                        {(form[field.key] || "").length.toLocaleString()} / {field.maxLength.toLocaleString()}
+                      </span>
+                    )}
                   </label>
                 ))}
 

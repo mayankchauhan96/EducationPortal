@@ -1,2 +1,2 @@
 package com.robotics.education.project;
-public record ProjectResponse(Long id,String title,String slug,String description,String difficulty,String gradeRange,String skills,String imageUrl,String videoUrl,boolean published){}
+public record ProjectResponse(Long id,String title,String slug,String description,String difficulty,String gradeRange,String skills,String imageUrl,String listImageUrl,String videoUrl,boolean published){}

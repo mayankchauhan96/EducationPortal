@@ -9,10 +9,15 @@ const isUsableImageUrl = (url) => {
 
   try {
     const parsed = new URL(url);
-    return /\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i.test(parsed.pathname);
+    return ["http:", "https:"].includes(parsed.protocol);
   } catch {
     return false;
   }
+};
+
+const truncateDescription = (description, maxLength = 150) => {
+  const text = (description || "").trim();
+  return text.length > maxLength ? `${text.slice(0, maxLength).trimEnd()}…` : text;
 };
 
 const createProjectImage = (title, difficulty = "Project") => {
@@ -69,8 +74,8 @@ export default function Projects({ limit }) {
           .filter((project) => project)
           .map((project) => ({
             ...project,
-            imageUrl: isUsableImageUrl(project.imageUrl)
-              ? project.imageUrl
+            listImageUrl: isUsableImageUrl(project.listImageUrl || project.imageUrl)
+              ? project.listImageUrl || project.imageUrl
               : createProjectImage(project.title, project.difficulty),
           }));
 
@@ -121,11 +126,14 @@ export default function Projects({ limit }) {
                     backgroundImage: "linear-gradient(#a1a1aa 1px, transparent 1px), linear-gradient(90deg, #a1a1aa 1px, transparent 1px)",
                     backgroundSize: "28px 28px"
                   }} />
-                  {project.imageUrl ? (
+                  {project.listImageUrl ? (
                     <img
-                      src={project.imageUrl}
+                      src={project.listImageUrl}
                       alt={project.title}
-                      className="absolute inset-0 h-full w-full object-cover"
+                      className="absolute inset-0 h-full w-full bg-white object-contain p-3"
+                      onError={(event) => {
+                        event.currentTarget.src = createProjectImage(project.title, project.difficulty);
+                      }}
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-6xl font-black text-zinc-700">
@@ -137,7 +145,9 @@ export default function Projects({ limit }) {
                 <div className="p-7">
                   <span className="text-xs uppercase tracking-widest text-zinc-500">{project.difficulty || "Project"}</span>
                   <h3 className="mt-2 text-2xl font-bold">{project.title}</h3>
-                  <p className="mt-3 text-zinc-400">{project.skills || project.description}</p>
+                  <p className="mt-3 text-zinc-400">
+                    {project.skills || truncateDescription(project.description)}
+                  </p>
                   <Link to={`/projects/${project.slug}`} className="mt-6 inline-flex font-semibold">View Project →</Link>
                 </div>
               </motion.article>

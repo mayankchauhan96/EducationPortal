@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 public class ProjectAdminController {
     public record Request(
         @NotBlank String title, @NotBlank String slug, @NotBlank String description,
-        String difficulty, String gradeRange, String skills, String imageUrl, String videoUrl,
+        String difficulty, String gradeRange, String skills, String imageUrl, String listImageUrl, String videoUrl,
         Integer displayOrder, Boolean published, Set<Long> programIds) {}
 
     public record Response(
         Long id, String title, String slug, String description, String difficulty, String gradeRange,
-        String skills, String imageUrl, String videoUrl, Integer displayOrder, boolean published, List<Long> programIds) {}
+        String skills, String imageUrl, String listImageUrl, String videoUrl, Integer displayOrder, boolean published, List<Long> programIds) {}
 
     private final ProjectRepository repo;
     private final ProgramProjectLinkService projectLinks;
@@ -79,6 +79,7 @@ public class ProjectAdminController {
         p.setGradeRange(r.gradeRange());
         p.setSkills(r.skills());
         p.setImageUrl(r.imageUrl());
+        p.setListImageUrl(r.listImageUrl());
         p.setVideoUrl(r.videoUrl());
         p.setDisplayOrder(r.displayOrder() == null ? 0 : r.displayOrder());
         p.setPublished(r.published() == null || r.published());
@@ -94,6 +95,7 @@ public class ProjectAdminController {
             p.getGradeRange(),
             p.getSkills(),
             p.getImageUrl(),
+            p.getListImageUrl(),
             p.getVideoUrl(),
             p.getDisplayOrder(),
             p.isPublished(),

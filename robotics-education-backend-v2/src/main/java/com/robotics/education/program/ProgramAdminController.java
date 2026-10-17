@@ -90,6 +90,7 @@ public class ProgramAdminController {
                 pr.getGradeRange(),
                 pr.getSkills(),
                 pr.getImageUrl(),
+                pr.getListImageUrl(),
                 pr.getVideoUrl(),
                 pr.isPublished()
             ))

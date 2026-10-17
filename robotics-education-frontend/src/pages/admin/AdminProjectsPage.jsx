@@ -10,6 +10,7 @@ const emptyItem = {
   gradeRange: "",
   skills: "",
   imageUrl: "",
+  listImageUrl: "",
   videoUrl: "",
   displayOrder: 0,
   published: true,
@@ -19,11 +20,17 @@ const emptyItem = {
 const projectFields = [
   { key: "title", label: "Title" },
   { key: "slug", label: "Slug" },
-  { key: "description", label: "Description", type: "textarea" },
+  {
+    key: "description",
+    label: "Description",
+    type: "textarea",
+    helpText: "Use line breaks to separate paragraphs.",
+  },
   { key: "difficulty", label: "Difficulty" },
   { key: "skills", label: "Skills" },
-  { key: "imageUrl", label: "Image URL" },
-  { key: "videoUrl", label: "Video URL" },
+  { key: "imageUrl", label: "Project detail image URL" },
+  { key: "listImageUrl", label: "Project list image URL", helpText: "Shown on project cards. Leave blank to use the detail image." },
+  { key: "videoUrl", label: "Project video URL", helpText: "YouTube, Vimeo, or a direct MP4/WebM video URL." },
   { key: "displayOrder", label: "Display order", type: "number" },
 ];
 
