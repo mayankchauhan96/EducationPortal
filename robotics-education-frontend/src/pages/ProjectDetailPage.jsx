@@ -7,9 +7,34 @@ const isUsableImageUrl = (url) => {
 
   try {
     const parsed = new URL(url);
-    return /\.(png|jpe?g|webp|gif|svg)(\?.*)?$/i.test(parsed.pathname);
+    return ["http:", "https:"].includes(parsed.protocol);
   } catch {
     return false;
+  }
+};
+
+const getVideoSource = (value) => {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    if (!["http:", "https:"].includes(url.protocol)) return null;
+
+    if (url.hostname === "youtu.be") {
+      const id = url.pathname.slice(1);
+      return id ? { type: "embed", src: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}` } : null;
+    }
+    if (["youtube.com", "www.youtube.com", "m.youtube.com", "www.youtube-nocookie.com"].includes(url.hostname)) {
+      const id = url.searchParams.get("v") || url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1];
+      return id ? { type: "embed", src: `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}` } : null;
+    }
+    if (url.hostname === "vimeo.com" || url.hostname === "www.vimeo.com") {
+      const id = url.pathname.match(/\/(\d+)\/?$/)?.[1];
+      return id ? { type: "embed", src: `https://player.vimeo.com/video/${id}` } : null;
+    }
+    if (/\.(mp4|webm|ogg)$/i.test(url.pathname)) return { type: "file", src: url.href };
+    return { type: "link", src: url.href };
+  } catch {
+    return null;
   }
 };
 
@@ -82,6 +107,7 @@ export default function ProjectDetailPage() {
   const imageSrc = isUsableImageUrl(project.imageUrl)
     ? project.imageUrl
     : createProjectImage(project.title, project.difficulty);
+  const video = getVideoSource(project.videoUrl);
 
   return (
     <main className="section bg-zinc-950 text-white">
@@ -89,12 +115,47 @@ export default function ProjectDetailPage() {
         <Link to="/projects" className="text-sm font-medium text-zinc-400">← Back to projects</Link>
 
         <div className="mt-8 rounded-3xl border border-zinc-800 bg-zinc-900 p-8 md:p-12">
-          <div className="mb-8 overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-800">
-            <img src={imageSrc} alt={project.title} className="h-72 w-full object-contain md:h-96" />
+          <div className="mb-8">
+            <h2 className="mb-3 text-xl font-semibold"></h2>
+            <div className="overflow-hidden rounded-2xl border border-zinc-700 bg-white">
+              <img
+                src={imageSrc}
+                alt={project.title}
+                className="h-72 w-full object-contain p-3 md:h-96"
+                onError={(event) => {
+                  event.currentTarget.src = createProjectImage(project.title, project.difficulty);
+                }}
+              />
+            </div>
           </div>
+          {video && (
+            <div className="mb-8">
+              <h2 className="mb-3 text-xl font-semibold">Project video</h2>
+              {video.type === "embed" ? (
+                <div className="aspect-video overflow-hidden rounded-2xl border border-zinc-700 bg-black">
+                  <iframe
+                    src={video.src}
+                    title={`${project.title} video`}
+                    className="h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              ) : video.type === "file" ? (
+                <video className="w-full rounded-2xl border border-zinc-700 bg-black" controls src={video.src}>
+                  Your browser does not support video playback.
+                </video>
+              ) : (
+                <a className="font-medium text-zinc-300 underline" href={video.src} target="_blank" rel="noreferrer">
+                  Watch project video
+                </a>
+              )}
+            </div>
+          )}
           <span className="text-xs uppercase tracking-[0.22em] text-zinc-400">{project.difficulty}</span>
           <h1 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">{project.title}</h1>
-          <p className="mt-5 text-lg leading-8 text-zinc-300">{project.description}</p>
+          <h2 className="mt-5 text-xl font-semibold">About this project</h2>
+          <div className="mt-5 whitespace-pre-line text-lg leading-8 text-zinc-300">{project.description}</div>
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
             {project.skills && <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-zinc-300">{project.skills}</span>}
           </div>

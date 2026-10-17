@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProgramBySlug } from "../api/programApi";
 
+const truncateDescription = (description, maxLength = 150) => {
+  const text = (description || "").replace(/\s+/g, " ").trim();
+  return text.length > maxLength ? `${text.slice(0, maxLength).trimEnd()}…` : text;
+};
+
 export default function ProgramDetailPage() {
   const { slug } = useParams();
   const [program, setProgram] = useState(null);
@@ -50,11 +55,16 @@ export default function ProgramDetailPage() {
             <div className="mt-6 grid gap-5 md:grid-cols-2">
               {program.projects.map((project) => (
                 <div key={project.slug} className="rounded-3xl border border-zinc-200 p-6">
+                  {(project.listImageUrl || project.imageUrl) && (
+                    <div className="mb-5 flex aspect-video items-center justify-center overflow-hidden rounded-2xl bg-white">
+                      <img src={project.listImageUrl || project.imageUrl} alt={project.title} className="h-full w-full object-contain p-3" />
+                    </div>
+                  )}
                   <div className="flex items-center justify-between">
                     <h3 className="text-2xl font-bold text-zinc-900">{project.title}</h3>
                     <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs uppercase tracking-[0.2em] text-zinc-600">{project.difficulty}</span>
                   </div>
-                  <p className="mt-3 text-zinc-600">{project.description}</p>
+                  <p className="mt-3 text-zinc-600">{truncateDescription(project.description)}</p>
                   <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-600">
                     {project.skills && <span className="rounded-full border border-zinc-300 px-2 py-1">{project.skills}</span>}
                   </div>
