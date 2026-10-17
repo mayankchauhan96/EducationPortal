@@ -8,6 +8,7 @@ function Field({ field, value, onChange }) {
       <textarea
         rows={field.rows || 4}
         maxLength={field.maxLength}
+        required={field.required}
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
         className={common}
@@ -41,6 +42,7 @@ function Field({ field, value, onChange }) {
     return (
       <select
         value={value ?? ""}
+        required={field.required}
         onChange={(e) => onChange(e.target.value)}
         className={common}
       >
@@ -69,7 +71,15 @@ function Field({ field, value, onChange }) {
     );
   }
 
-  return <input value={value ?? ""} onChange={(e) => onChange(e.target.value)} className={common} />;
+  return (
+    <input
+      required={field.required}
+      maxLength={field.maxLength}
+      value={value ?? ""}
+      onChange={(e) => onChange(e.target.value)}
+      className={common}
+    />
+  );
 }
 
 export default function AdminResourcePage({
@@ -124,6 +134,14 @@ export default function AdminResourcePage({
 
   const save = async (event) => {
     event.preventDefault();
+    const missingRequiredField = fields.find((field) => (
+      field.required && (typeof form[field.key] !== "string" || !form[field.key].trim())
+    ));
+    if (missingRequiredField) {
+      setError(`${missingRequiredField.label} is required.`);
+      return;
+    }
+
     setSaving(true);
     setError("");
 
@@ -240,7 +258,11 @@ export default function AdminResourcePage({
                     key={field.key}
                     className={field.type === "textarea" ? "md:col-span-2 block" : "block"}
                   >
-                    <span className="text-sm font-medium text-zinc-700">{field.label}</span>
+                    <span className="text-sm font-medium text-zinc-700">
+                      {field.label}
+                      {field.required && <span className="ml-1 text-red-600" aria-hidden="true">*</span>}
+                      {field.required && <span className="sr-only"> (required)</span>}
+                    </span>
                     <Field
                       field={field}
                       value={form[field.key]}

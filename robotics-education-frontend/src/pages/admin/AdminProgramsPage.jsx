@@ -13,9 +13,9 @@ const emptyItem = {
 };
 
 const fields = [
-  { key: "title", label: "Title" },
-  { key: "slug", label: "Slug" },
-  { key: "description", label: "Description", type: "textarea" },
+  { key: "title", label: "Title", required: true },
+  { key: "slug", label: "Slug", required: true },
+  { key: "description", label: "Description", type: "textarea", required: true },
   { key: "tag", label: "Tag" },
   { key: "imageUrl", label: "Image URL" },
   { key: "displayOrder", label: "Display order", type: "number" },

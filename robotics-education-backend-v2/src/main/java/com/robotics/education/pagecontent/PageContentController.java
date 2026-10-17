@@ -14,6 +14,8 @@ public class PageContentController {
         "testimonials-students",
         "testimonials-labs",
         "testimonials-community",
+        "testimonials-workshops",
+        "testimonials-awards",
         "testimonials-others"
     );
 
@@ -40,7 +42,6 @@ public class PageContentController {
         List<PageContentResponse> stories = repository
             .findAllByPageKeyInAndPublishedTrueOrderByDisplayOrderAsc(TESTIMONIAL_PAGE_KEYS)
             .stream()
-            .filter(item -> item.getImageUrl() != null && !item.getImageUrl().isBlank())
             .map(this::toResponse)
             .toList();
 

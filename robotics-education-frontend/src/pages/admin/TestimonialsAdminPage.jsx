@@ -12,27 +12,16 @@ const testimonialTabs = [
   { value: "testimonials-partner-schools", label: "Partner Schools" },
   { value: "testimonials-students", label: "Students" },
   { value: "testimonials-labs", label: "Labs" },
+  { value: "testimonials-workshops", label: "Workshops" },
+  { value: "testimonials-awards", label: "Awards" },
   { value: "testimonials-community", label: "Community" },
   { value: "testimonials-others", label: "Others" },
 ];
 
 const fields = [
-  { key: "sectionTitle", label: "Section title" },
-  { key: "sectionBody", label: "Section body", type: "textarea" },
+  { key: "sectionTitle", label: "Section title", required: true },
+  { key: "sectionBody", label: "Section body", type: "textarea", required: true },
   { key: "bullets", label: "Bullets (use | between items)", type: "textarea" },
-  {
-    key: "category",
-    label: "Category",
-    type: "select",
-    options: [
-      { value: "partner-schools", label: "Partner schools" },
-      { value: "students", label: "Students" },
-      { value: "labs", label: "Labs" },
-      { value: "seminars", label: "Seminars" },
-      { value: "workshops", label: "Workshops" },
-      { value: "stories", label: "Community story" },
-    ],
-  },
   {
     key: "imageUrl",
     label: "Photo URLs (one per line)",
@@ -114,10 +103,10 @@ export default function TestimonialsAdminPage() {
             columns={[
               { key: "pageKey", label: "Section" },
               { key: "sectionTitle", label: "Title" },
-              { key: "category", label: "Category" },
               { key: "imageUrl", label: "Photo URLs" },
               { key: "attribution", label: "Attribution" },
               { key: "displayOrder", label: "Order" },
+              { key: "published", label: "Status" },
             ]}
           />
         </div>

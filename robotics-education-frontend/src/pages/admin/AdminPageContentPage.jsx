@@ -14,6 +14,7 @@ const fields = [
   {
     key: "pageKey",
     label: "Page key",
+    required: true,
     type: "select",
     options: [
       { value: "home", label: "Home" },
@@ -25,8 +26,8 @@ const fields = [
       { value: "blogs", label: "Blogs" },
     ],
   },
-  { key: "sectionTitle", label: "Section title" },
-  { key: "sectionBody", label: "Section body", type: "textarea" },
+  { key: "sectionTitle", label: "Section title", required: true },
+  { key: "sectionBody", label: "Section body", type: "textarea", required: true },
   { key: "bullets", label: "Bullets (use | between items)", type: "textarea" },
   { key: "displayOrder", label: "Display order", type: "number" },
   { key: "published", label: "Published", type: "boolean" },

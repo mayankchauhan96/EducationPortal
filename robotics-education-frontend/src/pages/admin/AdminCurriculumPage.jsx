@@ -14,9 +14,9 @@ const emptyItem = {
 };
 
 const fields = [
-  { key: "levelName", label: "Learning level" },
-  { key: "slug", label: "Slug" },
-  { key: "gradeRange", label: "Grade range" },
+  { key: "levelName", label: "Learning level", required: true },
+  { key: "slug", label: "Slug", required: true },
+  { key: "gradeRange", label: "Grade range", required: true },
   { key: "learningObjectives", label: "Learning objectives", type: "textarea" },
   { key: "skills", label: "Skills", type: "textarea" },
   { key: "imageUrl", label: "Image URL" },

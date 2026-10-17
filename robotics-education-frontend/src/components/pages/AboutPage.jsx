@@ -1,4 +1,7 @@
+import { lazy, Suspense } from "react";
 import PageContentSection from "../common/PageContentSection";
+
+const HomeCommunityPreview = lazy(() => import("../home/HomeCommunityPreview"));
 
 const fallbackSections = [
   {
@@ -23,13 +26,18 @@ const fallbackSections = [
 
 export default function AboutPage() {
   return (
-    <PageContentSection
-      pageKey="about"
-      eyebrow="ABOUT US"
-      title="We believe learning should be active, practical, and future-focused."
-      intro="Our mission is to help students build real-world skills through robotics, coding, engineering, and STEM experiences."
-      className="bg-zinc-50"
-      fallbackSections={fallbackSections}
-    />
+    <>
+      <PageContentSection
+        pageKey="about"
+        eyebrow="ABOUT US"
+        title="We believe learning should be active, practical, and future-focused."
+        intro="Our mission is to help students build real-world skills through robotics, coding, engineering, and STEM experiences."
+        className="bg-zinc-50"
+        fallbackSections={fallbackSections}
+      />
+      <Suspense fallback={<div className="section min-h-[260px] bg-zinc-50" aria-label="Loading community section" />}>
+        <HomeCommunityPreview />
+      </Suspense>
+    </>
   );
 }

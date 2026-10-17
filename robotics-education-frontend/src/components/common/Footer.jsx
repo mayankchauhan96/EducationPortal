@@ -45,7 +45,7 @@ export default function Footer() {
             <div className="space-y-3 text-zinc-400">
               <p>{siteConfig.email}</p>
               <p>{siteConfig.phone}</p>
-              <Link className="footer-link" to="/contact">Book a Demo →</Link>
+              <Link className="footer-link" to="/demo-request">Book a Demo →</Link>
             </div>
           </div>
         </div>

@@ -48,7 +48,10 @@ export default function Navbar({ theme, onThemeChange }) {
               </svg>
             )}
           </button>
-          <Link to="/contact" className="btn-primary">{siteConfig.primaryCta}</Link>
+          <Link to="/portal/login" className="rounded-full border border-zinc-300 px-5 py-3 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-100">
+            Log in
+          </Link>
+          <Link to="/demo-request" className="btn-primary">{siteConfig.primaryCta}</Link>
         </div>
 
         <button
@@ -88,7 +91,10 @@ export default function Navbar({ theme, onThemeChange }) {
             )}
             Switch to {nextTheme} mode
           </button>
-          <Link to="/contact" onClick={() => setOpen(false)} className="btn-primary block text-center">
+          <Link to="/portal/login" onClick={() => setOpen(false)} className="block rounded-xl border border-zinc-300 px-4 py-3 text-center font-semibold text-zinc-800 transition hover:bg-zinc-100">
+            Log in
+          </Link>
+          <Link to="/demo-request" onClick={() => setOpen(false)} className="btn-primary block text-center">
             {siteConfig.primaryCta}
           </Link>
         </nav>

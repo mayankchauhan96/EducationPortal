@@ -28,19 +28,19 @@ public class PageContentAdminController {
     }
 
     @GetMapping
-    public ApiResponse<List<PageContentResponse>> list() {
+    public ApiResponse<List<PageContentAdminResponse>> list() {
         return ApiResponse.ok(repo.findAll().stream().map(this::map).toList());
     }
 
     @PostMapping
-    public ApiResponse<PageContentResponse> create(@Valid @RequestBody Request r) {
+    public ApiResponse<PageContentAdminResponse> create(@Valid @RequestBody Request r) {
         PageContent p = new PageContent();
         apply(p, r);
         return ApiResponse.created(map(repo.save(p)));
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<PageContentResponse> update(@PathVariable Long id, @Valid @RequestBody Request r) {
+    public ApiResponse<PageContentAdminResponse> update(@PathVariable Long id, @Valid @RequestBody Request r) {
         PageContent p = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Page content not found"));
         apply(p, r);
         return ApiResponse.ok(map(repo.save(p)));
@@ -66,9 +66,10 @@ public class PageContentAdminController {
         p.setPublished(r.published() == null || r.published());
     }
 
-    private PageContentResponse map(PageContent p) {
-        return new PageContentResponse(
+    private PageContentAdminResponse map(PageContent p) {
+        return new PageContentAdminResponse(
             p.getId(), p.getPageKey(), p.getSectionTitle(), p.getSectionBody(), p.getBullets(),
-            p.getDisplayOrder(), p.getCategory(), p.getImageUrl(), p.getImageAltText(), p.getAttribution());
+            p.getDisplayOrder(), p.getCategory(), p.getImageUrl(), p.getImageAltText(), p.getAttribution(),
+            p.isPublished());
     }
 }

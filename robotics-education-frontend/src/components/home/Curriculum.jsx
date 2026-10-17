@@ -114,30 +114,19 @@ export default function Curriculum() {
                   </div>
 
                   <h3 className="mt-6 text-2xl font-bold text-zinc-900">{item.levelName}</h3>
-                  <p className="mt-2 text-sm uppercase tracking-[0.18em] text-zinc-500">
-                    Learning level
-                  </p>
 
                   <div className="mt-6 space-y-4 text-zinc-600">
-                    <div>
-                      <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-zinc-500">
-                        Learning outcomes
-                      </h4>
-                      <p className="mt-2 leading-7">{item.learningObjectives || "Build understanding through hands-on exploration and guided project work."}</p>
-                    </div>
+                    <p className="leading-7">{item.learningObjectives || "Build understanding through hands-on exploration and guided project work."}</p>
 
-                    <div>
-                      <h4 className="text-sm font-semibold uppercase tracking-[0.14em] text-zinc-500">
-                        Skills developed
-                      </h4>
-                      <div className="mt-3 flex flex-wrap gap-2">
+                    {splitSkills(item.skills).length > 0 && (
+                      <div className="flex flex-wrap gap-2">
                         {splitSkills(item.skills).map((skill) => (
                           <span key={skill} className="rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs text-zinc-700">
                             {skill}
                           </span>
                         ))}
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   <Link

@@ -6,17 +6,22 @@ const links = [
   ["Programs", "/admin/programs"],
   ["Projects", "/admin/projects"],
   ["Curriculum", "/admin/curriculum"],
+  ["Lessons", "/admin/curriculum/lessons"],
   ["Page Content", "/admin/page-content"],
   ["Testimonials", "/admin/testimonials"],
   ["Contacts", "/admin/contacts"],
   ["Demo Requests", "/admin/demo-requests"],
   ["Users", "/admin/users"],
+  ["Academic Setup", "/admin/academic"],
 ];
 
 export default function AdminLayout() {
   const navigate = useNavigate();
   const session = getAdminSession();
-  const visibleLinks = links.filter(([, to]) => to !== "/admin/users" || session?.user?.role === "ADMIN");
+  const visibleLinks = links.filter(([, to]) =>
+    (to !== "/admin/users" || session?.user?.role === "ADMIN") &&
+    (to !== "/admin/academic" || session?.user?.role === "ADMIN")
+  );
 
   const handleLogout = () => {
     clearAdminSession();
@@ -30,6 +35,12 @@ export default function AdminLayout() {
           <div className="border-b border-zinc-800 px-6 py-6">
             <div className="text-lg font-black tracking-tight">Robotics Admin</div>
             <div className="mt-1 text-xs text-zinc-500">{session?.user?.email}</div>
+            <NavLink
+              to="/"
+              className="mt-4 inline-flex rounded-xl border border-zinc-700 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:bg-zinc-900 hover:text-white"
+            >
+              Visit homepage
+            </NavLink>
           </div>
 
           <nav className="flex-1 space-y-1 p-4">
@@ -61,9 +72,14 @@ export default function AdminLayout() {
           <div className="border-b border-zinc-200 bg-white px-5 py-4 lg:hidden">
             <div className="flex items-center justify-between">
               <span className="font-bold">Robotics Admin</span>
-              <button onClick={handleLogout} className="text-sm text-zinc-500">
-                Sign out
-              </button>
+              <div className="flex items-center gap-4">
+                <NavLink to="/" className="text-sm font-medium text-zinc-700 underline">
+                  Visit homepage
+                </NavLink>
+                <button onClick={handleLogout} className="text-sm text-zinc-500">
+                  Sign out
+                </button>
+              </div>
             </div>
             <div className="mt-3 flex gap-2 overflow-x-auto">
               {visibleLinks.map(([label, to]) => (
