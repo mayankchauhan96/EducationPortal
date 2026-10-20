@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 
 const Hero = lazy(() => import("../components/home/Hero"));
+const InnovationImpactSection = lazy(() => import("../components/home/InnovationImpactSection"));
 const Skills = lazy(() => import("../components/home/Skills"));
 const Programs = lazy(() => import("../components/home/Programs"));
 const Projects = lazy(() => import("../components/home/Projects"));
@@ -26,6 +27,9 @@ export default function Home() {
     <main>
       <LazySection>
         <Hero />
+      </LazySection>
+      <LazySection>
+        <InnovationImpactSection />
       </LazySection>
       <LazySection>
         <Skills />

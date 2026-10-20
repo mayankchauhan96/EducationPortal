@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import PageContentSection from "../common/PageContentSection";
 
+const InnovationImpactSection = lazy(() => import("../home/InnovationImpactSection"));
 const HomeCommunityPreview = lazy(() => import("../home/HomeCommunityPreview"));
 
 const fallbackSections = [
@@ -35,6 +36,9 @@ export default function AboutPage() {
         className="bg-zinc-50"
         fallbackSections={fallbackSections}
       />
+      <Suspense fallback={<div className="section min-h-[260px] bg-zinc-950" aria-label="Loading impact section" />}>
+        <InnovationImpactSection />
+      </Suspense>
       <Suspense fallback={<div className="section min-h-[260px] bg-zinc-50" aria-label="Loading community section" />}>
         <HomeCommunityPreview />
       </Suspense>
