@@ -34,9 +34,17 @@ GET  /api/programs
 GET  /api/programs/{slug}
 GET  /api/projects
 GET  /api/projects/{slug}
+GET  /api/technologies
 GET  /api/curriculum
 POST /api/contact
 POST /api/demo-requests
+
+Admin project records can be assigned to multiple technology sections, with one
+primary technology. Manage technology descriptions, learning topics, and
+external resources under `/admin/technologies`; assign projects under
+`/admin/projects`. Flyway migration V14 creates and seeds the technology
+curriculum and its initial project mappings.
+Migration V15 moves Block-Based Coding & Robotics to the first technology card.
 
 Environment variables:
 - DATABASE_URL

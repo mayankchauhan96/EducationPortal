@@ -22,9 +22,9 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white pt-32 lg:pt-44">
+    <section className="relative overflow-hidden bg-white pt-28 lg:pt-32">
       <div className="absolute -right-40 top-20 h-96 w-96 rounded-full bg-zinc-100 blur-3xl" />
-      <div className="container-shell relative grid items-center gap-14 pb-24 lg:grid-cols-[1.05fr_.95fr] lg:pb-32">
+      <div className="container-shell relative grid items-center gap-14 pb-16 lg:grid-cols-[1.05fr_.95fr] lg:pb-20">
         <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7 }}>
           <p className="eyebrow">ROBOTICS • CODING • STEM</p>
           <h1 className="max-w-4xl text-5xl font-black leading-[0.98] tracking-[-0.05em] sm:text-6xl lg:text-8xl">

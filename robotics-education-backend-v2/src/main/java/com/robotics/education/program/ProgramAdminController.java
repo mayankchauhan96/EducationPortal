@@ -92,7 +92,9 @@ public class ProgramAdminController {
                 pr.getImageUrl(),
                 pr.getListImageUrl(),
                 pr.getVideoUrl(),
-                pr.isPublished()
+                pr.isPublished(),
+                pr.getTechnologies().stream().map(technology -> technology.getSlug()).sorted().toList(),
+                pr.getPrimaryTechnology() == null ? null : pr.getPrimaryTechnology().getSlug()
             ))
             .toList();
 

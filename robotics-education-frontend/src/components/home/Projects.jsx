@@ -228,6 +228,10 @@ export default function Projects({ limit }) {
       spotlightSlug: filteredProjects[spotlightIndex % Math.max(filteredProjects.length, 1)]?.slug,
     } : undefined,
   });
+  const allProjectsReturnState = createReturnState(location, {
+    hash: location.pathname === "/" ? "#project-showcase" : location.hash,
+    label: "home",
+  });
 
   const selectFilter = (setter, value) => {
     setter(value);
@@ -350,12 +354,16 @@ export default function Projects({ limit }) {
               </div>
             )}
 
-            <p className="sr-only" aria-live="polite">
-              Showing {filteredProjects.length} of {projects.length} projects.
-            </p>
-            <p className="mb-4 text-sm text-zinc-500" aria-hidden="true">
-              Showing {filteredProjects.length} of {projects.length} projects
-            </p>
+            {!limit && (
+              <>
+                <p className="sr-only" aria-live="polite">
+                  Showing {filteredProjects.length} of {projects.length} projects.
+                </p>
+                <p className="mb-4 text-sm text-zinc-500" aria-hidden="true">
+                  Showing {filteredProjects.length} of {projects.length} projects
+                </p>
+              </>
+            )}
             {filteredProjects.length === 0 ? (
               <p className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 text-center text-zinc-400">No projects match these filters. Try another area or difficulty.</p>
             ) : (
@@ -414,6 +422,13 @@ export default function Projects({ limit }) {
                     </div>
                   </motion.article>
                 ))}
+              </div>
+            )}
+            {limit && (
+              <div className="mt-8 text-center">
+                <Link to="/projects" state={allProjectsReturnState} className="btn-secondary">
+                  View all projects <span aria-hidden="true">→</span>
+                </Link>
               </div>
             )}
           </>

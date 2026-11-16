@@ -374,3 +374,89 @@ body { margin: 0; min-width: 320px; }
 .site-theme[data-theme="light"] .community-story-card:hover {
   background-color: #e4e4e7;
 }
+
+.home-page > section.section {
+  padding-block: clamp(3.5rem, 5vw, 5rem);
+}
+
+.technology-curriculum-section {
+  padding-block: clamp(3rem, 5vw, 4.5rem);
+  color: #0f172a;
+  background: linear-gradient(155deg, #f8fafc, #eff6ff 58%, #f5f3ff);
+}
+
+.technology-curriculum-heading {
+  color: #0f172a;
+}
+
+.technology-curriculum-intro {
+  color: #475569;
+}
+
+.technology-curriculum-support {
+  color: #64748b;
+}
+
+.technology-detail-panel {
+  color: #0f172a;
+}
+
+.site-theme[data-theme="dark"] .technology-curriculum-section {
+  color: #f4f4f5;
+  background: linear-gradient(155deg, #09090b, #0f172a 58%, #18122b);
+}
+
+.site-theme[data-theme="dark"] .technology-curriculum-heading {
+  color: #f4f4f5;
+}
+
+.site-theme[data-theme="dark"] .technology-curriculum-intro,
+.site-theme[data-theme="dark"] .technology-curriculum-support {
+  color: #cbd5e1;
+}
+
+.site-theme[data-theme="dark"] .technology-curriculum-card {
+  color: #f4f4f5;
+  border-color: #3f3f46;
+  background-color: #18181b;
+}
+
+.site-theme[data-theme="dark"] .technology-curriculum-card :is(.text-slate-600, .text-slate-500) {
+  color: #cbd5e1;
+}
+
+.site-theme[data-theme="dark"] .technology-curriculum-card :is(.border-slate-200, .border-slate-100) {
+  border-color: #3f3f46;
+}
+
+.site-theme[data-theme="dark"] .technology-curriculum-card .bg-slate-50 {
+  background-color: #27272a;
+}
+
+.site-theme[data-theme="dark"] .technology-detail-panel {
+  color: #f4f4f5;
+  border-color: #3f3f46;
+  background-color: #18181b;
+}
+
+.site-theme[data-theme="light"] .technology-detail-panel > div:first-child {
+  color: #ffffff;
+}
+
+.site-theme[data-theme="dark"] .technology-detail-panel > div:first-child {
+  color: #ffffff;
+}
+
+.site-theme[data-theme="dark"] .technology-project-card {
+  color: #f4f4f5;
+  border-color: #3f3f46;
+  background-color: #09090b;
+}
+
+.site-theme[data-theme="dark"] .technology-detail-panel :is(.text-slate-500, .text-slate-600, .text-slate-700) {
+  color: #cbd5e1;
+}
+
+.site-theme[data-theme="dark"] .technology-detail-panel :is(.bg-slate-50, .bg-slate-100) {
+  background-color: #27272a;
+}

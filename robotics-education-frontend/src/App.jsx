@@ -19,6 +19,7 @@ import AdminLoginPage from "./pages/admin/AdminLoginPage";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import AdminProgramsPage from "./pages/admin/AdminProgramsPage";
 import AdminProjectsPage from "./pages/admin/AdminProjectsPage";
+import AdminTechnologiesPage from "./pages/admin/AdminTechnologiesPage";
 import AdminCurriculumPage from "./pages/admin/AdminCurriculumPage";
 import AdminPageContentPage from "./pages/admin/AdminPageContentPage";
 import TestimonialsAdminPage from "./pages/admin/TestimonialsAdminPage";
@@ -72,6 +73,7 @@ export default function App() {
             <Route path="/admin" element={<AdminDashboardPage />} />
             <Route path="/admin/programs" element={<AdminProgramsPage />} />
             <Route path="/admin/projects" element={<AdminProjectsPage />} />
+            <Route path="/admin/technologies" element={<AdminTechnologiesPage />} />
             <Route path="/admin/curriculum" element={<AdminCurriculumPage />} />
             <Route path="/admin/curriculum/lessons" element={<AdminCurriculumLessonsPage />} />
             <Route path="/admin/page-content" element={<AdminPageContentPage />} />

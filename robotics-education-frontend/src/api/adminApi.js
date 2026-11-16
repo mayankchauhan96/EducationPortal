@@ -46,6 +46,19 @@ export async function deleteProject(id) {
   return unwrap(await apiClient.delete(`/admin/projects/${id}`));
 }
 
+export async function getAdminTechnologies() {
+  return unwrap(await apiClient.get("/admin/technologies"));
+}
+export async function createTechnology(payload) {
+  return unwrap(await apiClient.post("/admin/technologies", payload));
+}
+export async function updateTechnology(id, payload) {
+  return unwrap(await apiClient.put(`/admin/technologies/${id}`, payload));
+}
+export async function deleteTechnology(id) {
+  return unwrap(await apiClient.delete(`/admin/technologies/${id}`));
+}
+
 export async function getAdminCurriculum() {
   return unwrap(await apiClient.get("/admin/curriculum"));
 }

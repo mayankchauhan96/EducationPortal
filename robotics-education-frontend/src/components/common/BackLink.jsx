@@ -30,6 +30,7 @@ export default function BackLink({ fallbackTo, fallbackLabel, className }) {
       ...(returnTo.previousReturnTo ? { returnTo: returnTo.previousReturnTo } : {}),
       ...(returnTo.restoreSkill ? { restoreSkill: returnTo.restoreSkill } : {}),
       ...(returnTo.projectFilters ? { restoreProjectFilters: returnTo.projectFilters } : {}),
+      ...(returnTo.restoreTechnologyId ? { restoreTechnologyId: returnTo.restoreTechnologyId } : {}),
     }
     : undefined;
 

@@ -37,7 +37,7 @@ public class SecurityConfig {
                     "/actuator/health"
                 ).permitAll()
                 .requestMatchers("/api/auth/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/programs/**", "/api/projects/**", "/api/curriculum/**", "/api/pages/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/programs/**", "/api/projects/**", "/api/curriculum/**", "/api/pages/**", "/api/technologies").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/contact", "/api/demo-requests").permitAll()
                 .requestMatchers("/api/admin/**").hasAnyRole("ADMIN", "EDITOR")
                 .requestMatchers("/api/teacher/**", "/api/student/**", "/api/parent/**", "/api/principal/**").authenticated()

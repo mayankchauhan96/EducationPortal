@@ -3,6 +3,8 @@ package com.robotics.education.project;
 import com.robotics.education.common.*;
 import com.robotics.education.program.Program;
 import com.robotics.education.program.ProgramProjectLinkService;
+import com.robotics.education.technology.Technology;
+import com.robotics.education.technology.TechnologyRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/projects")
@@ -19,18 +20,22 @@ public class ProjectAdminController {
     public record Request(
         @NotBlank String title, @NotBlank String slug, @NotBlank String description,
         String difficulty, String gradeRange, String skills, String imageUrl, String listImageUrl, String videoUrl,
-        Integer displayOrder, Boolean published, Set<Long> programIds) {}
+        Integer displayOrder, Boolean published, Set<Long> programIds,
+        Set<Long> technologyIds, Long primaryTechnologyId) {}
 
     public record Response(
         Long id, String title, String slug, String description, String difficulty, String gradeRange,
-        String skills, String imageUrl, String listImageUrl, String videoUrl, Integer displayOrder, boolean published, List<Long> programIds) {}
+        String skills, String imageUrl, String listImageUrl, String videoUrl, Integer displayOrder, boolean published,
+        List<Long> programIds, List<Long> technologyIds, Long primaryTechnologyId) {}
 
     private final ProjectRepository repo;
     private final ProgramProjectLinkService projectLinks;
+    private final TechnologyRepository technologies;
 
-    public ProjectAdminController(ProjectRepository repo, ProgramProjectLinkService projectLinks) {
+    public ProjectAdminController(ProjectRepository repo, ProgramProjectLinkService projectLinks, TechnologyRepository technologies) {
         this.repo = repo;
         this.projectLinks = projectLinks;
+        this.technologies = technologies;
     }
 
     @GetMapping
@@ -47,6 +52,7 @@ public class ProjectAdminController {
         apply(p, r);
         p = repo.save(p);
         projectLinks.setPrograms(p, r.programIds());
+        setTechnologies(p, r.technologyIds(), r.primaryTechnologyId());
         return ApiResponse.created(map(p));
     }
 
@@ -58,6 +64,11 @@ public class ProjectAdminController {
         apply(p, r);
         if (r.programIds() != null) {
             projectLinks.setPrograms(p, r.programIds());
+        }
+        if (r.technologyIds() != null) {
+            setTechnologies(p, r.technologyIds(), r.primaryTechnologyId());
+        } else if (r.primaryTechnologyId() != null) {
+            throw new IllegalArgumentException("Select technologies before setting a primary technology");
         }
         return ApiResponse.ok(map(p));
     }
@@ -85,6 +96,22 @@ public class ProjectAdminController {
         p.setPublished(r.published() == null || r.published());
     }
 
+    private void setTechnologies(Project project, Set<Long> technologyIds, Long primaryTechnologyId) {
+        Set<Long> selectedIds = technologyIds == null ? Set.of() : technologyIds;
+        List<Technology> selected = technologies.findAllById(selectedIds);
+        if (selected.size() != selectedIds.size()) {
+            throw new IllegalArgumentException("One or more selected technologies do not exist");
+        }
+        if (primaryTechnologyId != null && !selectedIds.contains(primaryTechnologyId)) {
+            throw new IllegalArgumentException("The primary technology must also be selected");
+        }
+        project.setTechnologies(new HashSet<>(selected));
+        project.setPrimaryTechnology(selected.stream()
+            .filter(technology -> technology.getId().equals(primaryTechnologyId))
+            .findFirst()
+            .orElse(null));
+    }
+
     private Response map(Project p) {
         return new Response(
             p.getId(),
@@ -99,7 +126,9 @@ public class ProjectAdminController {
             p.getVideoUrl(),
             p.getDisplayOrder(),
             p.isPublished(),
-            p.getPrograms().stream().map(Program::getId).toList()
+            p.getPrograms().stream().map(Program::getId).toList(),
+            p.getTechnologies().stream().map(Technology::getId).sorted().toList(),
+            p.getPrimaryTechnology() == null ? null : p.getPrimaryTechnology().getId()
         );
     }
 }

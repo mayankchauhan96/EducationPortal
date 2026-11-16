@@ -1,4 +1,9 @@
+import { Suspense, lazy } from "react";
+import { Link } from "react-router-dom";
 import PageContentSection from "../common/PageContentSection";
+
+const LearningJourney = lazy(() => import("../home/LearningJourney"));
+const TechnologyCurriculum = lazy(() => import("../home/TechnologyCurriculum"));
 
 const fallbackSections = [
   {
@@ -21,8 +26,6 @@ const fallbackSections = [
   },
 ];
 
-import { Link } from "react-router-dom";
-
 export default function StudentsPage() {
   return (
     <>
@@ -34,6 +37,11 @@ export default function StudentsPage() {
         className="bg-white"
         fallbackSections={fallbackSections}
       />
+
+      <Suspense fallback={<div className="section min-h-[260px] animate-pulse bg-zinc-50" aria-label="Loading student learning content" />}>
+        <LearningJourney />
+        <TechnologyCurriculum />
+      </Suspense>
 
       <div className="container-shell pb-16">
         <div className="flex flex-wrap gap-4">

@@ -1,6 +1,6 @@
 export default function InnovationImpactSection() {
   return (
-    <section className="relative isolate overflow-hidden bg-zinc-950 py-20 text-white sm:py-24">
+    <section className="relative isolate overflow-hidden bg-zinc-950 py-14 text-white sm:py-16">
       <div
         className="pointer-events-none absolute -right-24 -top-32 -z-10 h-96 w-96 rounded-full bg-zinc-700/20 blur-3xl"
         aria-hidden="true"

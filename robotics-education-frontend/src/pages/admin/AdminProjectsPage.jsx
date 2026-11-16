@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import AdminResourcePage from "./AdminResourcePage";
-import { getAdminPrograms, getAdminProjects, createProject, updateProject, deleteProject } from "../../api/adminApi";
+import {
+  getAdminPrograms,
+  getAdminProjects,
+  getAdminTechnologies,
+  createProject,
+  updateProject,
+  deleteProject,
+} from "../../api/adminApi";
 
 const emptyItem = {
   title: "",
@@ -15,6 +22,8 @@ const emptyItem = {
   displayOrder: 0,
   published: true,
   programIds: [],
+  technologyIds: [],
+  primaryTechnologyId: "",
 };
 
 const projectFields = [
@@ -37,14 +46,22 @@ const projectFields = [
 
 export default function AdminProjectsPage() {
   const [programs, setPrograms] = useState([]);
+  const [technologies, setTechnologies] = useState([]);
   const [programsLoading, setProgramsLoading] = useState(true);
   const [programsError, setProgramsError] = useState("");
+  const [technologiesLoading, setTechnologiesLoading] = useState(true);
+  const [technologiesError, setTechnologiesError] = useState("");
 
   useEffect(() => {
     getAdminPrograms()
       .then(setPrograms)
       .catch((error) => setProgramsError(error.response?.data?.message || "Failed to load programs."))
       .finally(() => setProgramsLoading(false));
+
+    getAdminTechnologies()
+      .then(setTechnologies)
+      .catch((error) => setTechnologiesError(error.response?.data?.message || "Failed to load technologies."))
+      .finally(() => setTechnologiesLoading(false));
   }, []);
 
   const fields = [
@@ -60,6 +77,29 @@ export default function AdminProjectsPage() {
       })),
       disabled: programsLoading || Boolean(programsError),
     },
+    {
+      key: "technologyIds",
+      label: "Technology sections",
+      type: "multiselect",
+      helpText: "Choose every technology section where this project should appear.",
+      options: technologies.map((technology) => ({
+        value: technology.id,
+        label: technology.title,
+      })),
+      disabled: technologiesLoading || Boolean(technologiesError),
+    },
+    {
+      key: "primaryTechnologyId",
+      label: "Primary technology",
+      type: "select",
+      numeric: true,
+      helpText: "The primary category must also be selected under Technology sections.",
+      options: technologies.map((technology) => ({
+        value: technology.id,
+        label: technology.title,
+      })),
+      disabled: technologiesLoading || Boolean(technologiesError),
+    },
     { key: "published", label: "Published", type: "boolean" },
   ];
 
@@ -70,9 +110,14 @@ export default function AdminProjectsPage() {
           {programsError} Program assignment is unavailable until the programs load.
         </div>
       )}
+      {technologiesError && (
+        <div role="alert" className="mx-auto mt-5 max-w-7xl rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          {technologiesError} Technology assignment is unavailable until the technology sections load.
+        </div>
+      )}
       <AdminResourcePage
         title="Projects"
-        subtitle="Manage student projects and media. Select the programs for each project here."
+        subtitle="Manage student projects, media, program links, and technology-section mappings."
         load={getAdminProjects}
         create={createProject}
         update={updateProject}

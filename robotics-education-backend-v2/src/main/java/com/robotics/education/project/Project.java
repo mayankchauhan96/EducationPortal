@@ -1,6 +1,7 @@
 package com.robotics.education.project;
 import com.robotics.education.common.AuditableEntity;
 import com.robotics.education.program.Program;
+import com.robotics.education.technology.Technology;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +20,18 @@ public class Project extends AuditableEntity {
  @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
  private Set<Program> programs = new HashSet<>();
 
+ @ManyToMany(fetch = FetchType.LAZY)
+ @JoinTable(
+     name = "project_technologies",
+     joinColumns = @JoinColumn(name = "project_id"),
+     inverseJoinColumns = @JoinColumn(name = "technology_id")
+ )
+ private Set<Technology> technologies = new HashSet<>();
+
+ @ManyToOne(fetch = FetchType.LAZY)
+ @JoinColumn(name = "primary_technology_id")
+ private Technology primaryTechnology;
+
  public Long getId(){return id;} public String getTitle(){return title;} public void setTitle(String v){title=v;}
  public String getSlug(){return slug;} public void setSlug(String v){slug=v;} public String getDescription(){return description;} public void setDescription(String v){description=v;}
  public String getDifficulty(){return difficulty;} public void setDifficulty(String v){difficulty=v;} public String getGradeRange(){return gradeRange;} public void setGradeRange(String v){gradeRange=v;}
@@ -27,4 +40,6 @@ public class Project extends AuditableEntity {
  public String getVideoUrl(){return videoUrl;} public void setVideoUrl(String v){videoUrl=v;} public Integer getDisplayOrder(){return displayOrder;} public void setDisplayOrder(Integer v){displayOrder=v;}
  public boolean isPublished(){return published;} public void setPublished(boolean v){published=v;}
  public Set<Program> getPrograms(){ return programs; } public void setPrograms(Set<Program> programs){ this.programs = programs; }
+ public Set<Technology> getTechnologies(){ return technologies; } public void setTechnologies(Set<Technology> technologies){ this.technologies = technologies; }
+ public Technology getPrimaryTechnology(){ return primaryTechnology; } public void setPrimaryTechnology(Technology technology){ this.primaryTechnology = technology; }
 }
