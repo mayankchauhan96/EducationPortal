@@ -43,7 +43,7 @@ function Field({ field, value, onChange }) {
       <select
         value={value ?? ""}
         required={field.required}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(field.numeric ? (e.target.value ? Number(e.target.value) : null) : e.target.value)}
         className={common}
       >
         <option value="">Select {field.label.toLowerCase()}</option>
@@ -92,6 +92,7 @@ export default function AdminResourcePage({
   fields,
   emptyItem,
   columns,
+  singularTitle = title.replace(/s$/, ""),
 }) {
   const [items, setItems] = useState([]);
   const [editing, setEditing] = useState(null);
@@ -187,7 +188,7 @@ export default function AdminResourcePage({
             <h1 className="section-title">{title}</h1>
             <p className="mt-3 max-w-2xl text-zinc-500">{subtitle}</p>
           </div>
-          <button onClick={startCreate} className="btn-primary">Add {title.replace(/s$/, "")}</button>
+          <button onClick={startCreate} className="btn-primary">Add {singularTitle}</button>
         </div>
 
         {error && (
@@ -248,7 +249,7 @@ export default function AdminResourcePage({
           <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 px-5 py-8">
             <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-7">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">{editing === "new" ? "Create" : "Edit"} {title.replace(/s$/, "")}</h2>
+                <h2 className="text-2xl font-bold">{editing === "new" ? "Create" : "Edit"} {singularTitle}</h2>
                 <button onClick={cancel} className="rounded-full bg-zinc-100 px-3 py-1">✕</button>
               </div>
 

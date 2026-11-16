@@ -9,3 +9,8 @@ export const getProjectBySlug = async (slug) => {
   const response = await apiClient.get(`/projects/${slug}`);
   return response.data.data;
 };
+
+export const getTechnologies = async () => {
+  const response = await apiClient.get("/technologies");
+  return response.data.data || [];
+};

@@ -15,6 +15,12 @@ export default function FinalCta() {
           <div className="mt-9">
             <Link to="/demo-request" className="btn-primary">Book a School Demo <span>↗</span></Link>
           </div>
+          <nav aria-label="Explore information for your community" className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-zinc-600">
+            <Link to="/students" className="transition hover:text-zinc-950">For students <span aria-hidden="true">→</span></Link>
+            <Link to="/schools" className="transition hover:text-zinc-950">For schools <span aria-hidden="true">→</span></Link>
+            <Link to="/teachers" className="transition hover:text-zinc-950">For teachers <span aria-hidden="true">→</span></Link>
+            <Link to="/parents" className="transition hover:text-zinc-950">For parents <span aria-hidden="true">→</span></Link>
+          </nav>
         </div>
       </div>
     </section>

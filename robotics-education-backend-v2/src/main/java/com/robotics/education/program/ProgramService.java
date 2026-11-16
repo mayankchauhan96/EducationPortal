@@ -21,7 +21,7 @@ public class ProgramService {
   List<Project> linked = p.getProjects() == null ? List.of() : p.getProjects().stream().sorted(Comparator.comparing(project -> project.getTitle().toLowerCase())).toList();
   return linked.stream()
     .filter(Project::isPublished)
-    .map(project -> new ProjectResponse(project.getId(), project.getTitle(), project.getSlug(), project.getDescription(), project.getDifficulty(), project.getGradeRange(), project.getSkills(), project.getImageUrl(), project.getListImageUrl(), project.getVideoUrl(), project.isPublished()))
+    .map(project -> new ProjectResponse(project.getId(), project.getTitle(), project.getSlug(), project.getDescription(), project.getDifficulty(), project.getGradeRange(), project.getSkills(), project.getImageUrl(), project.getListImageUrl(), project.getVideoUrl(), project.isPublished(), project.getTechnologies().stream().map(technology -> technology.getSlug()).sorted().toList(), project.getPrimaryTechnology() == null ? null : project.getPrimaryTechnology().getSlug()))
     .toList();
  }
 }

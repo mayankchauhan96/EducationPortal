@@ -3,13 +3,10 @@ import { Suspense, lazy } from "react";
 const Hero = lazy(() => import("../components/home/Hero"));
 const InnovationImpactSection = lazy(() => import("../components/home/InnovationImpactSection"));
 const Skills = lazy(() => import("../components/home/Skills"));
-const Programs = lazy(() => import("../components/home/Programs"));
-const Projects = lazy(() => import("../components/home/Projects"));
 const Curriculum = lazy(() => import("../components/home/Curriculum"));
-const LearningJourney = lazy(() => import("../components/home/LearningJourney"));
-const ForSchools = lazy(() => import("../components/home/ForSchools"));
-const Audiences = lazy(() => import("../components/home/Audiences"));
+const Projects = lazy(() => import("../components/home/Projects"));
 const HomeCommunityPreview = lazy(() => import("../components/home/HomeCommunityPreview"));
+const TechnologyCurriculum = lazy(() => import("../components/home/TechnologyCurriculum"));
 const FinalCta = lazy(() => import("../components/home/FinalCta"));
 
 const LazySection = ({ children }) => (
@@ -24,7 +21,7 @@ const LazySection = ({ children }) => (
 
 export default function Home() {
   return (
-    <main>
+    <main className="home-page">
       <LazySection>
         <Hero />
       </LazySection>
@@ -35,25 +32,16 @@ export default function Home() {
         <Skills />
       </LazySection>
       <LazySection>
-        <Programs />
+        <Curriculum />
       </LazySection>
       <LazySection>
         <Projects limit={3} />
       </LazySection>
       <LazySection>
-        <Curriculum />
-      </LazySection>
-      <LazySection>
-        <LearningJourney />
-      </LazySection>
-      <LazySection>
-        <ForSchools />
-      </LazySection>
-      <LazySection>
-        <Audiences />
-      </LazySection>
-      <LazySection>
         <HomeCommunityPreview />
+      </LazySection>
+      <LazySection>
+        <TechnologyCurriculum />
       </LazySection>
       <LazySection>
         <FinalCta />
